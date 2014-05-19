@@ -4,10 +4,13 @@
 *.userprefs
 .DS_Store
 thumbs.db
+npm-debug.log
 packages/
 Scratch/
+Website/build/
 **/bin/Debug/**
 **/bin/Release/**
 **/obj/Debug/**
 **/obj/Release/**
 **/node_modules/**
+**/bower_components/**

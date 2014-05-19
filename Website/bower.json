@@ -1,0 +1,10 @@
+{
+  "name": "TSON Website",
+  "version": "1.0.0",
+  "main": "app/app.js",
+  "dependencies": {
+    "bootstrap": ">=3.0.0",
+    "angular": "~1.2.16"
+  },
+  "overrides": {}
+}
