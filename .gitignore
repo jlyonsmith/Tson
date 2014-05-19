@@ -1,0 +1,13 @@
+*.log
+*.sdf
+*.orig
+*.userprefs
+.DS_Store
+thumbs.db
+packages/
+Scratch/
+**/bin/Debug/**
+**/bin/Release/**
+**/obj/Debug/**
+**/obj/Release/**
+**/node_modules/**
