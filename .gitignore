@@ -7,7 +7,7 @@ thumbs.db
 npm-debug.log
 packages/
 Scratch/
-Website/build/
+Website/debug/
 **/bin/Debug/**
 **/bin/Release/**
 **/obj/Debug/**

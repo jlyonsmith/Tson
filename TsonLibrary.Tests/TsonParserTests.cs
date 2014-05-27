@@ -28,7 +28,7 @@ namespace TsonLibrary.Tests
 
             protected override TsonNode VisitRootObject(TsonRootObjectNode node)
             {
-                return base.VisitObject(node);
+                return VisitObject(node);
             }
 
             protected override TsonNode VisitObject(TsonObjectNode node)
@@ -175,18 +175,14 @@ b: 456
         }
 
         [Test()]
-        public void TestRootArray()
+        public void TestBadRootArray()
         {
             string tsonText = @"# A comment
 [
     123    ,
     456
 ]";
-            string expectedText = "[123,456]";
-            TsonNode node = new TsonParser().Parse(tsonText);
-
-            Assert.IsInstanceOf<TsonArrayNode>(node);
-            Assert.AreEqual(expectedText, new TestNodeVisitor(node).ToString());
+            Assert.Throws<TsonParseException>(() => new TsonParser().Parse(tsonText));
         }
 
         [Test()]

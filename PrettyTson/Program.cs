@@ -10,13 +10,13 @@ namespace Tson2Jsv
         {
             if (args.Length != 1)
             {
-                Console.WriteLine("Usage: mono Tson2Jsv.exe <input-file>");
+                Console.WriteLine("Usage: mono PrettyTson.exe <input-file>");
                 return;
             }
 
             try
             {
-                string s = Tson.ToJsv(File.ReadAllText(args[0]));
+                string s = Tson.Format(File.ReadAllText(args[0]));
 
                 Console.WriteLine(s);
             }

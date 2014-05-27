@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TsonLibrary.Tests", "TsonLi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tson2Jsv", "Tson2Jsv\Tson2Jsv.csproj", "{24E122F7-BA71-4B41-B221-F259ED16E90B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TsonService", "TsonService\TsonService.csproj", "{530CF659-8410-4238-86FB-1B5045F7BF41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrettyTson", "PrettyTson\PrettyTson.csproj", "{D9197E81-F9F3-4593-92D4-98DEE6C6ED27}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +23,10 @@ Global
 		{24E122F7-BA71-4B41-B221-F259ED16E90B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24E122F7-BA71-4B41-B221-F259ED16E90B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24E122F7-BA71-4B41-B221-F259ED16E90B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{530CF659-8410-4238-86FB-1B5045F7BF41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{530CF659-8410-4238-86FB-1B5045F7BF41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{530CF659-8410-4238-86FB-1B5045F7BF41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{530CF659-8410-4238-86FB-1B5045F7BF41}.Release|Any CPU.Build.0 = Release|Any CPU
 		{64C046C6-AC97-4545-A5E1-8FEA0BF46C74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{64C046C6-AC97-4545-A5E1-8FEA0BF46C74}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64C046C6-AC97-4545-A5E1-8FEA0BF46C74}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -27,10 +35,14 @@ Global
 		{B237FD67-AFAF-46EE-81C4-4FC677CF89AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B237FD67-AFAF-46EE-81C4-4FC677CF89AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B237FD67-AFAF-46EE-81C4-4FC677CF89AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9197E81-F9F3-4593-92D4-98DEE6C6ED27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9197E81-F9F3-4593-92D4-98DEE6C6ED27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9197E81-F9F3-4593-92D4-98DEE6C6ED27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9197E81-F9F3-4593-92D4-98DEE6C6ED27}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = TsonLibrary\TsonLibrary.csproj
+		StartupItem = TsonService\TsonService.csproj
 	EndGlobalSection
 EndGlobal

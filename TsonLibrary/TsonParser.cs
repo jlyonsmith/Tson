@@ -32,18 +32,7 @@ namespace TsonLibrary
             var token  = tokenizer.PeekNext();
             TsonNode node;
 
-            if (token.IsLeftCurlyBrace)
-            {
-                node = ParseObject();
-            }
-            else if (token.IsLeftSquareBrace)
-            {
-                node = ParseArray();
-            }
-            else
-            {
-                node = ParseRootObject();
-            }
+            node = ParseRootObject();
 
             token = tokenizer.Next();
 
@@ -56,9 +45,19 @@ namespace TsonLibrary
         private TsonNode ParseRootObject()
         {
             TsonToken token = tokenizer.Next();
+            bool hasLeftBrace = false;
 
-            if (token.IsEnd)
-                return new TsonObjectNode();
+            if (token.IsLeftCurlyBrace)
+            {
+                hasLeftBrace = true;
+
+                token = tokenizer.Next();
+
+                if (token.IsRightCurlyBrace)
+                    return new TsonRootObjectNode();
+            }
+            else if (token.IsEnd)
+                return new TsonRootObjectNode();
 
             var keyValues = new List<KeyValuePair<TsonStringNode, TsonNode>>();
 
@@ -85,13 +84,20 @@ namespace TsonLibrary
                     token = tokenizer.Next();
                     continue;
                 }
+                else if (token.IsRightCurlyBrace)
+                {
+                    if (!hasLeftBrace)
+                        throw new TsonParseException(token, "Root object did not have a '{' to match '}'");
+
+                    break;
+                }
                 else if (token.IsEnd)
                     break;
                 else
-                    throw new TsonParseException(token, "Expected a ',' or EOF");
+                    throw new TsonParseException(token, "Expected ',' or EOF" + (hasLeftBrace ? ", or '}'" : ""));
             }
 
-            return new TsonObjectNode(keyValues);
+            return new TsonRootObjectNode(keyValues);
         }
 
         private TsonNode ParseObject()

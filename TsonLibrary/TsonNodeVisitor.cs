@@ -4,10 +4,6 @@ namespace TsonLibrary
 {
     public abstract class TsonNodeVisitor
     {
-        protected TsonNodeVisitor()
-        {
-        }
-
         protected virtual TsonNode Visit(TsonNode node)
         {
             if (node == null)

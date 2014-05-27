@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B237FD67-AFAF-46EE-81C4-4FC677CF89AA}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>TsonLibrary</RootNamespace>
-    <AssemblyName>TsonLibrary</AssemblyName>
+    <ProjectGuid>{D9197E81-F9F3-4593-92D4-98DEE6C6ED27}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>PrettyTson</RootNamespace>
+    <AssemblyName>PrettyTson</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -17,7 +17,7 @@
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
+    <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -25,23 +25,20 @@
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
+    <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TsonNode.cs" />
-    <Compile Include="TsonParser.cs" />
-    <Compile Include="TsonTokenizer.cs" />
-    <Compile Include="TsonNodeVisitor.cs" />
-    <Compile Include="TsonCleanTokenizer.cs" />
-    <Compile Include="Tson.cs" />
-    <Compile Include="PrettyTsonNodeVisitor.cs" />
-    <Compile Include="JsonTsonNodeVisitor.cs" />
-    <Compile Include="XmlTsonNodeVisitor.cs" />
-    <Compile Include="JsvTsonNodeVisitor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\TsonLibrary\TsonLibrary.csproj">
+      <Project>{B237FD67-AFAF-46EE-81C4-4FC677CF89AA}</Project>
+      <Name>TsonLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

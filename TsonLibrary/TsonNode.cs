@@ -11,7 +11,8 @@ namespace TsonLibrary
         Number,
         String,
         Boolean,
-        Null
+        Null,
+        Comment
     }
 
     public class TsonNode
@@ -23,6 +24,7 @@ namespace TsonLibrary
 
         public TsonNodeType NodeType { get; private set; }
         public TsonToken Token { get; protected set; }
+        public string Comment { get; protected set; }
 
         public bool IsObject { get { return NodeType == TsonNodeType.Object; } }
         public bool IsArray { get { return NodeType == TsonNodeType.Array; } }
@@ -36,7 +38,7 @@ namespace TsonLibrary
     {
         public List<KeyValuePair<TsonStringNode, TsonNode>> KeyValues { get; protected set; }
 
-        public TsonObjectNode() : base(TsonNodeType.Object)
+        public TsonObjectNode(TsonNodeType nodeType = TsonNodeType.Object) : base(nodeType)
         {
             this.KeyValues = new List<KeyValuePair<TsonStringNode, TsonNode>>();
         }
@@ -49,12 +51,15 @@ namespace TsonLibrary
 
     public class TsonRootObjectNode : TsonObjectNode
     {
-        public TsonRootObjectNode() : base()
+        public string PreComment { get; private set; }
+
+        public TsonRootObjectNode() : base(TsonNodeType.RootObject)
         {
         }
 
-        public TsonRootObjectNode(List<KeyValuePair<TsonStringNode, TsonNode>> keyValues) : base(keyValues)
+        public TsonRootObjectNode(List<KeyValuePair<TsonStringNode, TsonNode>> keyValues) : this()
         {
+            this.KeyValues = keyValues;
         }
     }
 

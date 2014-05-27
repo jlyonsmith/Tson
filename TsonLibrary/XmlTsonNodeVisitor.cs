@@ -4,50 +4,59 @@ using System.Globalization;
 
 namespace TsonLibrary
 {
-    public class JsvTsonNodeVisitor : TsonNodeVisitor
+    public class XmlTsonNodeVisitor : TsonNodeVisitor
     {
         private StringBuilder sb;
-        private TsonNode node;
+        private TsonNode rootNode;
 
-        public JsvTsonNodeVisitor(TsonNode node)
+        public XmlTsonNodeVisitor(TsonNode rootNode)
         {
-            this.node = node;
+            this.rootNode = rootNode;
         }
 
-        public override string ToString()
+        public string ToXml()
         {
             sb = new StringBuilder();
-            Visit(node);
+            Visit(rootNode);
             return sb.ToString();
         }
 
         protected override TsonNode VisitRootObject(TsonRootObjectNode node)
         {
-            return base.VisitObject(node);
-        }
-
-        protected override TsonNode VisitObject(TsonObjectNode node)
-        {
             var e = node.KeyValues.GetEnumerator();
-            bool addComma = false;
 
-            sb.Append("{");
+            sb.Append("<root>");
 
             while (e.MoveNext())
             {
                 var kv = e.Current;
 
-                if (addComma)
-                    sb.Append(",");
-                else
-                    addComma = true;
-
-                Visit(kv.Key);
-                sb.Append(":");
+                sb.AppendFormat("<{0}>", kv.Key.Value);
                 Visit(kv.Value);
+                sb.AppendFormat("</{0}>", kv.Key.Value);
             }
 
-            sb.Append("}");
+            sb.Append("</root>");
+
+            return node;
+        }
+
+        protected override TsonNode VisitObject(TsonObjectNode node)
+        {
+            var e = node.KeyValues.GetEnumerator();
+
+            sb.Append("<object>");
+
+            while (e.MoveNext())
+            {
+                var kv = e.Current;
+
+                sb.AppendFormat("<{0}>", kv.Key.Value);
+                Visit(kv.Value);
+                sb.AppendFormat("</{0}>", kv.Key.Value);
+            }
+
+            sb.Append("</object>");
 
             return node;
         }
@@ -55,34 +64,26 @@ namespace TsonLibrary
         protected override TsonNode VisitArray(TsonArrayNode node)
         {
             var e = node.Values.GetEnumerator();
-            bool addComma = false;
 
-            sb.Append("[");
+            sb.Append("<array>");
 
             while (e.MoveNext())
             {
                 var v = e.Current;
 
-                if (addComma)
-                    sb.Append(",");
-                else
-                    addComma = true;
-
+                sb.AppendFormat("<item>");
                 Visit(v);
+                sb.AppendFormat("</item>");
             }
 
-            sb.Append("]");
+            sb.Append("</array>");
 
             return node;
         }
 
         protected override TsonNode VisitString(TsonStringNode node)
         {
-            if (node.IsQuoted)
-                sb.AppendFormat("\"{0}\"", node.Value.ToString());
-            else
-                sb.Append(node.Value.ToString());
-
+            sb.Append(node.Value.ToString());
             return node;
         }
 

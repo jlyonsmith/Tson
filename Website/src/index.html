@@ -1,0 +1,58 @@
+<!doctypehtml>
+<html ng-app="tsonApp"> 
+	<head>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="css/app.css" />
+    <script type="text/javascript" src="vendor/angular/angular.js"></script>
+    <script type="text/javascript" src="vendor/angular-route/angular-route.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="home/home.js"></script>
+    <script type="text/javascript" src="validate/validate.js"></script>
+    <script type="text/javascript" src="format/format.js"></script>
+		<meta name="language" content="en" />
+  	</head>
+  	<body>
+  		<div class="navbar">
+			<div class="container-fluid">
+	  			<div class="navbar-header">
+					<a class="navbar-brand" href="#">TSON</a>
+					<div class="social" style="float:right;"></div>
+  				</div>
+  			</div>
+  		</div>
+  		<div class="container-fluid">
+  			<div class="sidebar">
+  				<div class="well">
+            <a href="#/">
+              <h5>About TSON</h5>
+            </a>
+            <a href="#/format">
+              <h5>Format TSON</h5>
+            </a>
+  					<a href="#/validate">
+  						<h5>Validate TSON</h5>
+  					</a>
+  					<a href="#/convert">
+  						<h5>Convert TSON</h5>
+  					</a>
+  					<ul>
+  						<li>
+  							<a href="#">to JSON</a>
+  						</li>
+  						<li>
+  							<a href="#">to JSV</a>
+  						</li>
+  						<li>
+  							<a href="#">to XML</a>
+  						</li>
+  					</ul>
+  				</div>
+  			</div>
+  			<div class="content">
+          <div class="content-inner">
+            <div ng-view></div>
+          </div>
+  			</div>
+  		</div>
+	</body>
+</html>

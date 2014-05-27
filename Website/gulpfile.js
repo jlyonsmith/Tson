@@ -5,50 +5,55 @@ var express = require('express');
 var path = require('path');
 
 var paths = {
-  html: ['app/*.html'],
-  icons: ['app/*.ico'],
-  script: ['app/script/*.js', 'bower_components/angular/angular.js'],
+  html: ['src/**/*.html'],
+  icons: ['src/*.ico'],
+  script: ['src/**/*.js', 'bower_components/angular/angular.js', 'bower_components/angular-route/angular-route.js'],
   css: ['bower_components/bootstrap/dist/css/*'],
   fonts: ['bower_components/bootstrap/dist/fonts/*'],
-  images: ['app/images/*'],
-  less: ['app/less/*.less']
+  images: ['src/images/*'],
+  less: ['src/less/*.less']
 };
 
 gulp.task('images', function() {
   return gulp.src(paths.images)
-    .pipe(gulp.dest('build/img'));
-})
+    .pipe(gulp.dest('debug'));
+});
 
 gulp.task('icons', function() {
   return gulp.src(paths.icons)
-    .pipe(gulp.dest('build/'));
-})
+    .pipe(gulp.dest('debug'));
+});
+
+gulp.task('vendor_script', function() {
+  gulp.src(paths.script, { base: 'bower_components/' })
+    .pipe(gulp.dest('debug/vendor'));
+});
 
 gulp.task('script', function() {
-  return gulp.src(paths.script)
-    .pipe(gulp.dest('build/js'));
-})
+  return gulp.src(paths.script, { base: 'src/' })
+    .pipe(gulp.dest('debug'));
+});
 
 gulp.task('css', function() {
   return gulp.src(paths.css)
-    .pipe(gulp.dest('build/css'));
-})
+    .pipe(gulp.dest('debug/css'));
+});
 
 gulp.task('fonts', function() {
   return gulp.src(paths.fonts)
-    .pipe(gulp.dest('build/fonts'));
-})
+    .pipe(gulp.dest('debug/fonts'));
+});
 
 gulp.task('html', function() {
-  return gulp.src(paths.html)
-    .pipe(gulp.dest('build'));
-})
+  return gulp.src(paths.html, { base: 'src/' })
+    .pipe(gulp.dest('debug'));
+});
 
 gulp.task('less', function() {
   return gulp.src(paths.less)
     .pipe(less())
-    .pipe(gulp.dest('build/css'));
-})
+    .pipe(gulp.dest('debug/css'));
+});
 
 gulp.task('watch', function() {
   startExpress();
@@ -56,10 +61,10 @@ gulp.task('watch', function() {
 });
 
 function startExpress() {
-  app = express()
-  app.use(require('connect-livereload')())
-  app.use(express.static('build'));
-  app.listen(4000);
+  source = express()
+  source.use(require('connect-livereload')())
+  source.use(express.static('debug'));
+  source.listen(4000);
 }
 
 function startLiveReload() {
@@ -72,13 +77,13 @@ function startLiveReload() {
   gulp.watch(paths.icons, ['icons']);
   gulp.watch(paths.css, ['css']);
   gulp.watch(paths.less, ['less']);
-  gulp.watch(['build/*', 'build/**/*'], notifyLiveReload);
+  gulp.watch(['debug/*', 'debug/**/*'], notifyLiveReload);
 }
 
 function notifyLiveReload(event) {
   // `gulp.watch()` events provide an absolute path
   // so we need to make it relative to the server root
-  var fileName = path.relative("build", event.path);
+  var fileName = path.relative("debug", event.path);
  
   lr.changed({
     body: {
@@ -87,4 +92,4 @@ function notifyLiveReload(event) {
   });
 }
 
-gulp.task('default', ['images', 'icons', 'html', 'script', 'css', 'less', 'fonts']);
+gulp.task('default', ['images', 'icons', 'html', 'script', 'vendor_script', 'css', 'less', 'fonts']);
