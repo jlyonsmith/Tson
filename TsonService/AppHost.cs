@@ -7,6 +7,7 @@ using ServiceStack.Host;
 using System.Collections.Generic;
 using System.Text;
 using System.Net.Mime;
+using ToolBelt.ServiceStack;
 
 namespace TsonService
 {
@@ -41,6 +42,13 @@ namespace TsonService
             });
 
             log.Info(appConfig.ToString());
+
+            Plugins.Add(new ToolBelt.ServiceStack.CorsFeature(
+                allowOrigins: appConfig.CorsAllowedOrigins,
+                allowHeaders: ToolBelt.ServiceStack.CorsFeature.DefaultHeaders + ",Accept",
+                exposeHeaders: true,
+                allowCredentials: false
+            ));
         }
     }
 }

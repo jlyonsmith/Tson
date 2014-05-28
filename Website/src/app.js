@@ -1,17 +1,17 @@
-var app = angular.module('tsonApp', ['ngRoute'])
+var app = angular.module('tsonApp', ['ngRoute', 'tsonApp.services'])
 	.config(function($routeProvider) {
 		$routeProvider
 			.when('/', {
 				templateUrl: 'home/home.html',
-				controller: 'HomeController'
+				controller: 'homeController'
 			})
 			.when('/validate', {
 				templateUrl: 'validate/validate.html',
-				controller: 'ValidateController'
+				controller: 'validateController'
 			})
 			.when('/format', {
 				templateUrl: 'format/format.html',
-				controller: 'FormatController'
+				controller: 'formatController'
 			})
 			.otherwise({
 				redirectTo: '/'

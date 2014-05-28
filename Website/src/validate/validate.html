@@ -1,15 +1,24 @@
 <h1>Validate TSON</h1>
 <p>Validates a TSON string.</p>
-<form id="form" method="post">
+<form id="validate_form" novalidate ng-submit="submitForm()" ng-controller="validateController">
 	<div class="form-group">
-		<label for="inputString">Copy-paste your TSON string here:</label>
-		<textarea class="form-control" rows cols id="inputString" name="inputString"></textarea>
+		<label for="inputString">Type or paste your TSON data here:</label>
+		<textarea class="form-control" rows cols ng-model="tson" name="tsonTextArea"></textarea>
 	</div>
+	<!--
 	<div class="form-group">
-		<label><u>or</u> type in the URL to your TSON file here:</label>
+		<label><u>OR</u> type in the URL to your TSON file here:</label>
 		<input class="form-control" type="text" id="inputUrl" name="inputUrl" value="" style="color: #808080;"/>
 	</div>
+	-->
 	<div>
-		<input class="btn btn-primary" type="submit" value="Format TSON" />
+		<input class="btn btn-primary" type="submit" value="Validate TSON" />
+	</div>
+	<hr/>
+	<div class="alert alert-success" ng-show="result && result.isValid">
+		<p>The TSON is valid</p>
+	</div>
+	<div class="alert alert-danger" ng-show="result && !result.isValid">
+		<p>The TSON is not valid</p>
 	</div>
 </form>

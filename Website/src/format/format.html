@@ -1,15 +1,19 @@
 <h1>Format TSON</h1>
 <p>Formats a TSON string.</p>
-<form id="form" method="post">
+<form id="format_form" novalidate ng-submit="submitForm()" ng-controller="formatController">
 	<div class="form-group">
-		<label for="inputString">Copy-paste your TSON string here:</label>
-		<textarea class="form-control" rows cols id="inputString" name="inputString"></textarea>
-	</div>
-	<div class="form-group">
-		<label><u>or</u> type in the URL to your TSON file here:</label>
-		<input class="form-control" type="text" id="inputUrl" name="inputUrl" value="" style="color: #808080;"/>
+		<label for="inputString">Type or paste your TSON data here:</label>
+		<textarea class="form-control" rows cols ng-model="tson" name="tsonTextArea"></textarea>
 	</div>
 	<div>
 		<input class="btn btn-primary" type="submit" value="Format TSON" />
+	</div>
+	<hr/>
+	<div class="form-group" ng-show="result && result.tson">
+		<label for="inputString">Formatted TSON:</label>
+		<textarea class="form-control" rows cols ng-model="result.tson" name="formattedText" readonly></textarea>
+	</div>
+	<div class="alert alert-danger" ng-show="result && !result.tson">
+		<p>The TSON is not valid</p>
 	</div>
 </form>
