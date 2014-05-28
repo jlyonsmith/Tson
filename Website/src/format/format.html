@@ -2,7 +2,7 @@
 <p>Formats a TSON string.</p>
 <form id="format_form" novalidate ng-submit="submitForm()" ng-controller="formatController">
 	<div class="form-group">
-		<label for="inputString">Type or paste your TSON data here:</label>
+		<label for="tsonTextArea">Type or paste your TSON data here:</label>
 		<textarea class="form-control" rows cols ng-model="tson" name="tsonTextArea"></textarea>
 	</div>
 	<div>
@@ -13,7 +13,7 @@
 		<label for="inputString">Formatted TSON:</label>
 		<textarea class="form-control" rows cols ng-model="result.tson" name="formattedText" readonly></textarea>
 	</div>
-	<div class="alert alert-danger" ng-show="result && !result.tson">
+	<div class="alert alert-danger" ng-show="result && result.responseStatus">
 		<p>The TSON is not valid</p>
 	</div>
 </form>

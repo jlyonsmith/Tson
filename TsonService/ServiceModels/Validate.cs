@@ -12,6 +12,7 @@ namespace TsonService
     public class ValidateResponse
     {
         public bool IsValid { get; set; }
+        public ResponseStatus ResponseStatus { get; set; }
     }
 }
 

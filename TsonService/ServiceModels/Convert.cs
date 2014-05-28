@@ -21,7 +21,7 @@ namespace TsonService
     public class ConvertResponse
     {
         public string Data { get; set; }
-        public ResponseStatus Status { get; set; }
+        public ResponseStatus ResponseStatus { get; set; }
     }
 }
 

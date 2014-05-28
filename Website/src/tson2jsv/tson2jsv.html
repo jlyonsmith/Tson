@@ -1,0 +1,19 @@
+<h1>Convert TSON to JSV</h1>
+<p>Converts TSON data to JSV data.</p>
+<form id="tson2jsv_form" novalidate ng-submit="submitForm()" ng-controller="tson2JsvController">
+	<div class="form-group">
+		<label for="tsonTextArea">Type or paste your TSON data here:</label>
+		<textarea class="form-control" rows cols ng-model="tson" name="tsonTextArea"></textarea>
+	</div>
+	<div>
+		<input class="btn btn-primary" type="submit" value="Convert to JSV" />
+	</div>
+	<hr/>
+	<div class="form-group" ng-show="result && result.data">
+		<label for="convertedTextArea">Equivalent JSV:</label>
+		<textarea class="form-control" rows cols ng-model="result.data" name="convertedTextArea" readonly></textarea>
+	</div>
+	<div class="alert alert-danger" ng-show="result && result.responseStatus">
+		<p>The TSON is not valid</p>
+	</div>
+</form>
