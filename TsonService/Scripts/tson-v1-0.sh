@@ -1,0 +1,7 @@
+﻿#!/bin/bash
+#
+# WARNING: Do not edit these files in Xamarin Studio as they will get BOM's 
+# which screws up bash shell scripts.
+#
+/usr/bin/mono /home/ubuntu/lib/FerryView.v1.0/FerryViewService.exe $*
+

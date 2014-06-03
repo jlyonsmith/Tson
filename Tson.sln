@@ -44,5 +44,6 @@ Global
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = TsonService\TsonService.csproj
+		version = 1.0
 	EndGlobalSection
 EndGlobal
