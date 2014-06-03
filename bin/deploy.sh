@@ -23,7 +23,7 @@ if [[ -z "$SSH_CONFIG_NAME" ]]; then
 fi
 
 SLNDIR=$(dirname $(upfind $APPNAME.sln))
-SCRATCHDIR=$SLNDIR/scratch
+SCRATCHDIR=$SLNDIR/Scratch
 
 if [[ ! -d $SCRATCHDIR ]]; then mkdir $SCRATCHDIR; fi
 
