@@ -2,10 +2,11 @@
 <Version>
   <Files>
     <File>TsonLibrary/Properties/AssemblyInfo.cs</File>
+    <File>Scratch/Tson.version.txt</File>
   </Files>
   <Major>1</Major>
   <Minor>0</Minor>
   <Build>10602</Build>
-  <Revision>0</Revision>
+  <Revision>1</Revision>
   <StartYear>2014</StartYear>
 </Version>
