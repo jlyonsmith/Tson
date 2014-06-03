@@ -3,6 +3,9 @@
   <Files>
     <File>TsonLibrary/Properties/AssemblyInfo.cs</File>
     <File>Scratch/Tson.version.txt</File>
+    <File>TsonService/Properties/AssemblyInfo.cs</File>
+    <File>TsonService/Scripts/tson-v${Major}-${Minor}.conf</File>
+    <File>TsonService/Scripts/tson-v${Major}-${Minor}.sh</File>
   </Files>
   <Major>1</Major>
   <Minor>0</Minor>

@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{BE74C999-E323-47A6-B365-F1E0C1CD2177}"
+	ProjectSection(SolutionItems) = preProject
+		Tson.version = Tson.version
+		Tson.version.config = Tson.version.config
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TsonLibrary", "TsonLibrary\TsonLibrary.csproj", "{B237FD67-AFAF-46EE-81C4-4FC677CF89AA}"
 EndProject
