@@ -5,6 +5,7 @@
 		<link rel="stylesheet" type="text/css" href="app.css" />
     <script type="text/javascript" src="lib/angular/angular.js"></script>
     <script type="text/javascript" src="lib/angular-route/angular-route.js"></script>
+    <script type="text/javascript" src="config.js"></script>
     <script type="text/javascript" src="services/tsonService.js"></script>
     <script type="text/javascript" src="app.js"></script>
     <script type="text/javascript" src="home/home.js"></script>
@@ -16,47 +17,35 @@
 		<meta name="language" content="en" />
   	</head>
   	<body>
-  		<div class="navbar">
-			<div class="container-fluid">
-	  			<div class="navbar-header">
-					<a class="navbar-brand" href="#">TSON</a>
-					<div class="social" style="float:right;"></div>
-  				</div>
-  			</div>
-  		</div>
-  		<div class="container-fluid">
-  			<div class="sidebar">
-  				<div class="well">
-            <a href="#/">
-              <h5>About TSON</h5>
-            </a>
-            <a href="#/format">
-              <h5>Format TSON</h5>
-            </a>
-  					<a href="#/validate">
-  						<h5>Validate TSON</h5>
-  					</a>
-  					<a href="#/convert">
-  						<h5>Convert TSON</h5>
-  					</a>
-  					<ul>
-  						<li>
-  							<a href="#/tson2json">to JSON</a>
-  						</li>
-  						<li>
-  							<a href="#/tson2jsv">to JSV</a>
-  						</li>
-  						<li>
-  							<a href="#/tson2xml">to XML</a>
-  						</li>
-  					</ul>
-  				</div>
-  			</div>
-  			<div class="content">
-          <div class="content-inner">
+      <div class="navbar navbar-fixed-top">
+        <div class="container">
+          <span class="navbar-brand">TSON<span style="color: #a0a0a0;"> : Typeable Simple Object Notation</span></span>
+        </div>
+      </div>
+  		<div class="container">
+  			<div class="row">
+          <div class="col-sm-3">
+            <div class="sidebar-nav-fixed">
+      				<div class="well">
+                <ul class="nav">
+                  <li class="active"><a href="#/">About TSON</a></li>
+                  <li><a href="#/format">Format TSON</a></li>
+                  <li><a href="#/validate">Validate TSON</a></li>
+      					  <li><a href="#/tson2json">TSON to JSON</a></li>
+      						<li><a href="#/tson2jsv">TSON to JSV</a></li>
+      						<li><a href="#/tson2xml">TSON to XML</a></li>
+      					</ul>
+              </div> <!-- well -->
+            </div> <!-- sidebar-nav-fixed -->
+  				</div> <!-- col-sm-3 -->
+  			  <div class="col-sm-9 span-fixed-sidebar">
             <div ng-view></div>
-          </div>
-  			</div>
+  			  </div>
+        </div>
+        <hr>
+        <footer>
+          <p>© 2014, John Lyon-Smith.</p>
+        </footer>
   		</div>
 	</body>
 </html>

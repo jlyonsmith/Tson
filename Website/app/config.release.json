@@ -1,0 +1,6 @@
+{
+  "name": "tsonApp.config",
+  "constants": {
+    "tsonApiUrl": "http://api.tsonspec.org/"
+  }
+}

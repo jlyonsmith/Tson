@@ -19,7 +19,10 @@
     "connect-livereload": "^0.3.2",
     "gulp-bower-files": "^0.2.4",
     "gulp-clean": "^0.3.0",
-    "gulp-util": "^2.2.16",
-    "path": "^0.4.9"
+    "path": "^0.4.9",
+    "gulp-ng-constant": "^0.1.0",
+    "yargs": "^1.2.2",
+    "gulp-rename": "^1.2.0",
+    "gulp-util": "^2.2.16"
   }
 }

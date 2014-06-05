@@ -1,19 +1,22 @@
 var gulp = require('gulp'),
+  argv = require('yargs').argv,
   less = require('gulp-less')
   tinylr = require('tiny-lr'),
   express = require('express'),
   path = require('path'),
   gulpBowerFiles = require('gulp-bower-files'),
   clean = require('gulp-clean'),
-  util = require('gulp-util'),
-  path = require('path');
+  path = require('path'),
+  ngConstant = require('gulp-ng-constant'),
+  rename = require('gulp-rename');
 
 var portNum = 4000;
 var appPath = 'app/';
 var buildPath = 'build/';
 
 var paths = {
-  html: ['**/*.html'],
+  config: [argv.release ? 'config.release.json' : 'config.debug.json'],
+  html: ['**/*.html', '!tson_format.html'],
   icons: ['*.ico'],
   script: ['**/*.js'],
   images: ['**/*.png'],
@@ -57,6 +60,13 @@ gulp.task('less', function() {
     .pipe(gulp.dest(buildPath));
 });
 
+gulp.task('config', function() {
+  return gulp.src(paths.config, { base: appPath })
+    .pipe(ngConstant())
+    .pipe(rename({basename: 'config'}))
+    .pipe(gulp.dest(buildPath));
+});
+
 gulp.task('lib', function() {
   return gulpBowerFiles()
     .pipe(gulp.dest(path.join(buildPath, "lib")));
@@ -65,7 +75,7 @@ gulp.task('lib', function() {
 gulp.task('watch', function() {
   startExpress();
   startLiveReload();
-  util.log('Running on port', portNum);
+  console.log('Running on port', portNum);
 });
 
 function startExpress() {
@@ -83,6 +93,7 @@ function startLiveReload() {
   gulp.watch(paths.images, ['images']);
   gulp.watch(paths.icons, ['icons']);
   gulp.watch(paths.less, ['less']);
+  gulp.watch(paths.config, ['config']);
   gulp.watch([path.join(buildPath, '*'), path.join(buildPath, '**/*')], notifyLiveReload);
 }
 
@@ -98,4 +109,4 @@ function notifyLiveReload(event) {
   });
 }
 
-gulp.task('default', ['images', 'icons', 'html', 'script', 'less', 'lib']);
+gulp.task('default', ['images', 'icons', 'html', 'script', 'less', 'config', 'lib']);
