@@ -3,7 +3,7 @@
 <form id="tson2json_form" novalidate ng-submit="submitForm()" ng-controller="tson2JsonController">
 	<div class="form-group">
 		<label for="tsonTextArea">Type or paste your TSON data here:</label>
-		<textarea class="form-control" rows cols ng-model="tson" name="tsonTextArea"></textarea>
+		<textarea class="form-control" id="codeTextArea" rows="20" cols ng-model="tson" name="tsonTextArea"></textarea>
 	</div>
 	<div>
 		<input class="btn btn-primary" type="submit" value="Convert to JSON " />
@@ -11,7 +11,7 @@
 	<hr/>
 	<div class="form-group" ng-show="result && result.data">
 		<label for="convertedTextArea">Equivalent JSON:</label>
-		<textarea class="form-control" rows cols ng-model="result.data" name="convertedTextArea" readonly></textarea>
+		<pre><code>{{ result.data }}</code></pre>
 	</div>
 	<div class="alert alert-danger" ng-show="result && result.responseStatus">
 		<p>The TSON is not valid</p>

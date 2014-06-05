@@ -3,7 +3,7 @@
 <form id="validate_form" novalidate ng-submit="submitForm()" ng-controller="validateController">
 	<div class="form-group">
 		<label for="inputString">Type or paste your TSON data here:</label>
-		<textarea class="form-control" rows cols ng-model="tson" name="tsonTextArea"></textarea>
+		<textarea class="form-control" id="codeTextArea" rows="20" cols ng-model="tson" name="tsonTextArea"></textarea>
 	</div>
 	<!--
 	<div class="form-group">
