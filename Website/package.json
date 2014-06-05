@@ -3,7 +3,9 @@
   "description": "TSON Website",
   "author": "John Lyon-Smith",
   "version": "1.0.0",
-  "repository": { "type" : "git", "url" : "http://github.com/jlyonsmith/TsonLibrary.git"
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/jlyonsmith/TsonLibrary.git"
   },
   "scripts": {
     "start": "gulp watch"
@@ -14,6 +16,10 @@
     "gulp-less": "^1.2.2",
     "express": "^3.5.0",
     "tiny-lr": "^0.0.5",
-    "connect-livereload": "^0.3.2"
+    "connect-livereload": "^0.3.2",
+    "gulp-bower-files": "^0.2.4",
+    "gulp-clean": "^0.3.0",
+    "gulp-util": "^2.2.16",
+    "path": "^0.4.9"
   }
 }

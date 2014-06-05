@@ -162,10 +162,9 @@ namespace TsonLibrary
             return input.Substring(start.Offset, end.Offset - start.Offset);
         }
 
-        // TODO: Make extension on Char
-        public static bool IsSpecialChar(char c)
+        public static bool IsTsonPunctuation(char c)
         {
-            return (c == ',' || c == ':' || c == '[' || c == ']' || c == '{' || c == '}' || c == '#');
+            return (c == ',' || c == ':' || c == '[' || c == ']' || c == '{' || c == '}' || c == '"' || c == '#');
         }
 
         public virtual TsonToken Next()
@@ -272,7 +271,7 @@ namespace TsonLibrary
             {
                 MoveToNextChar();
 
-                if ((c = CurrentChar()) == '\0' || IsSpecialChar(c))
+                if ((c = CurrentChar()) == '\0' || IsTsonPunctuation(c))
                     break;
 
                 if (Char.IsWhiteSpace(c))
@@ -285,7 +284,7 @@ namespace TsonLibrary
                     }
                     while (Char.IsWhiteSpace(CurrentChar()));
 
-                    if ((c = CurrentChar()) == '\0' || IsSpecialChar(c))
+                    if ((c = CurrentChar()) == '\0' || IsTsonPunctuation(c))
                     {
                         // This is trailing whitespace; make it appear as the next token
                         this.nextToken = TsonToken.Whitespace(whitespaceLocation, SliceInput(ref whitespaceLocation, ref currentLocation));

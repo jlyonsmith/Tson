@@ -39,8 +39,12 @@ DASH_VERSION=${VERSION/\./-}
 # Delete the Release build directories
 rm -rf $SLNDIR/${APPNAME}Service/bin/Release
 
-# Do a release build
+# Do a release build of the service
 bash -c "cd $SLNDIR; xbuild /property:Configuration=Release /property:Platform='Any CPU' ${APPNAME}.sln"
+if [[ $? -ne 0 ]]; then exit 1; fi
+
+# Do a release build of the web site
+bash -c "cd Website; rm -rf build; gulp; cd .."
 if [[ $? -ne 0 ]]; then exit 1; fi
 
 # Stop the services
@@ -59,4 +63,7 @@ ssh $SSH_CONFIG_NAME "find ~/lib/${APPNAME}.${VERSION}/Scripts -name \*.sh | whi
 
 # Start the services
 ssh $SSH_CONFIG_NAME "sudo service ${LAPPNAME}-${DASH_VERSION} start"
+
+# Copy the web app up to S3
+aws s3 cp Website/build/ s3://tsonspec.org/ --region us-east-1 --profile jamoki --recursive --acl public-read
 

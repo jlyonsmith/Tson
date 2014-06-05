@@ -12,5 +12,6 @@ Website/debug/
 **/bin/Release/**
 **/obj/Debug/**
 **/obj/Release/**
-**/node_modules/**
-**/bower_components/**
+Website/node_modules/**
+Website/bower_components/**
+Website/build/**
