@@ -44,7 +44,7 @@ bash -c "cd $SLNDIR; xbuild /property:Configuration=Release /property:Platform='
 if [[ $? -ne 0 ]]; then exit 1; fi
 
 # Do a release build of the web site
-bash -c "cd Website; rm -rf build; gulp; cd .."
+bash -c "cd Website; gulp clean; gulp"
 if [[ $? -ne 0 ]]; then exit 1; fi
 
 # Stop the services
@@ -64,6 +64,7 @@ ssh $SSH_CONFIG_NAME "find ~/lib/${APPNAME}.${VERSION}/Scripts -name \*.sh | whi
 # Start the services
 ssh $SSH_CONFIG_NAME "sudo service ${LAPPNAME}-${DASH_VERSION} start"
 
-# Copy the web app up to S3
+# Update S3 website
+aws s3 rm s3://tsonspec.org/ --recursive --profile jamoki
 aws s3 cp Website/build/ s3://tsonspec.org/ --region us-east-1 --profile jamoki --recursive --acl public-read
 
