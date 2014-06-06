@@ -1,4 +1,4 @@
-var app = angular.module('tsonApp', ['ngRoute', 'tsonApp.services'])
+var app = angular.module('tsonApp', ['ngRoute', 'tsonApp.services', 'tsonApp.version'])
 	.config(function($routeProvider) {
 		$routeProvider
 			.when('/', {

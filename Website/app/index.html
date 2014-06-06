@@ -5,9 +5,11 @@
 		<link rel="stylesheet" type="text/css" href="app.css" />
     <script type="text/javascript" src="lib/angular/angular.js"></script>
     <script type="text/javascript" src="lib/angular-route/angular-route.js"></script>
+    <script type="text/javascript" src="version.js"></script>
     <script type="text/javascript" src="config.js"></script>
     <script type="text/javascript" src="services/tsonService.js"></script>
     <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="app-controller.js"></script>
     <script type="text/javascript" src="home/home.js"></script>
     <script type="text/javascript" src="validate/validate.js"></script>
     <script type="text/javascript" src="format/format.js"></script>
@@ -16,7 +18,7 @@
     <script type="text/javascript" src="tson2xml/tson2xml.js"></script>
 		<meta name="language" content="en" />
   	</head>
-  	<body>
+  	<body ng-controller="tsonAppController">
       <div class="navbar navbar-fixed-top">
         <div class="container">
           <span class="navbar-brand">TSON<span style="color: #a0a0a0;"> : Typeable Simple Object Notation</span></span>
@@ -28,7 +30,7 @@
             <div class="sidebar-nav-fixed">
       				<div class="well">
                 <ul class="nav">
-                  <li class="active"><a href="#/">About TSON</a></li>
+                  <li><a href="#/">About TSON</a></li>
                   <li><a href="#/format">Format TSON</a></li>
                   <li><a href="#/validate">Validate TSON</a></li>
       					  <li><a href="#/tson2json">TSON to JSON</a></li>
@@ -43,8 +45,19 @@
   			  </div>
         </div>
         <hr>
-        <footer>
-          <p>© 2014, John Lyon-Smith.</p>
+        <footer class="container">
+          <div class="row">
+            <div class="col-md-1">
+              <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+            </div>
+            <div class="col-md-4" style="font-size: 9pt;">
+              <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">TSON Specification</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://tsonspec.org" property="cc:attributionName" rel="cc:attributionURL">John Lyon-Smith</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+            </div>
+            <div class="col-md-3">&nbsp;</div>
+            <div class="col-md-4 text-right">
+              <span style="color: #a0a0a0;">{{ version }}</span>
+            </div>
+          </div>
         </footer>
   		</div>
 	</body>
