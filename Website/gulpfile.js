@@ -6,7 +6,6 @@ var gulp = require('gulp'),
   path = require('path'),
   gulpBowerFiles = require('gulp-bower-files'),
   clean = require('gulp-clean'),
-  path = require('path'),
   ngConstant = require('gulp-ng-constant'),
   rename = require('gulp-rename');
 
