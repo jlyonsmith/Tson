@@ -1,1 +1,1 @@
-angular.module("tsonApp.version", []).constant("tsonApiVersion", "v1.0.10606.4");
+angular.module("tsonApp.version", []).constant("tsonApiVersion", "v1.0.10607.0");
