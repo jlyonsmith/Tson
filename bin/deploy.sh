@@ -44,7 +44,7 @@ bash -c "cd $SLNDIR; xbuild /property:Configuration=Release /property:Platform='
 if [[ $? -ne 0 ]]; then exit 1; fi
 
 # Do a release build of the web site
-bash -c "cd Website; gulp clean; gulp"
+bash -c "cd Website; gulp clean; gulp --release"
 if [[ $? -ne 0 ]]; then exit 1; fi
 
 # Stop the services
