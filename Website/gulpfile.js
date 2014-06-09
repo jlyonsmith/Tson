@@ -67,7 +67,7 @@ gulp.task('config', function() {
 });
 
 gulp.task('lib', function() {
-  return gulpBowerFiles()
+  var src = gulpBowerFiles({checkExistence: true})
     .pipe(gulp.dest(path.join(buildPath, "lib")));
 });
 
