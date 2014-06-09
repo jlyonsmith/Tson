@@ -1,4 +1,5 @@
-app.controller('tson2JsonController', function($scope, tsonService) {
+app.controller('tson2JsonController', function($scope, $location, $analytics, tsonService) {
+	$analytics.pageTrack($location.path());
 	$scope.result = null;
 
 	$scope.submitForm = function() {

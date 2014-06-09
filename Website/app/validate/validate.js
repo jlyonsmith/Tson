@@ -1,4 +1,5 @@
-app.controller('validateController', function($scope, tsonService) {
+app.controller('validateController', function($scope, $location, $analytics, tsonService) {
+	$analytics.pageTrack($location.path());
 	$scope.result = null;
 
 	$scope.submitForm = function() {

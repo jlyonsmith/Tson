@@ -5,7 +5,8 @@ var app = angular.module('tsonApp', [
 		'angulartics', 
 		'angulartics.google.analytics'
 		])
-	.config(function($routeProvider) {
+	.config(function($routeProvider, $analyticsProvider) {
+		$analyticsProvider.virtualPageviews(false);
 		$routeProvider
 			.when('/', {
 				templateUrl: 'home/home.html',

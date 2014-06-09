@@ -1,4 +1,5 @@
-app.controller('formatController', function($scope, tsonService) {
+app.controller('formatController', function($scope, $location, $analytics, tsonService) {
+	$analytics.pageTrack($location.path());
 	$scope.result = null;
 
 	$scope.submitForm = function() {
