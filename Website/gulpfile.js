@@ -7,7 +7,8 @@ var gulp = require('gulp'),
   gulpBowerFiles = require('gulp-bower-files'),
   clean = require('gulp-clean'),
   ngConstant = require('gulp-ng-constant'),
-  rename = require('gulp-rename');
+  rename = require('gulp-rename'),
+  markdown = require('gulp-markdown');
 
 var portNum = 4000;
 var appPath = 'app/';
@@ -19,7 +20,8 @@ var paths = {
   icons: ['*.ico'],
   script: ['**/*.js'],
   images: ['**/*.png'],
-  less: ['**/*.less']
+  less: ['**/*.less'],
+  markdown: ['**/*.md']
 };
 
 for (var name in paths) {
@@ -67,9 +69,15 @@ gulp.task('config', function() {
 });
 
 gulp.task('lib', function() {
-  var src = gulpBowerFiles({checkExistence: true})
+  return gulpBowerFiles({checkExistence: true})
     .pipe(gulp.dest(path.join(buildPath, "lib")));
 });
+
+gulp.task('markdown', function() {
+  return gulp.src(paths.markdown)
+    .pipe(markdown())
+    .pipe(gulp.dest(path.join(buildPath))); 
+})
 
 gulp.task('serve', function() {
   startExpress();
@@ -93,6 +101,7 @@ function startLiveReload() {
   gulp.watch(paths.icons, ['icons']);
   gulp.watch(paths.less, ['less']);
   gulp.watch(paths.config, ['config']);
+  gulp.watch(paths.markdown, ['markdown']);
   gulp.watch([path.join(buildPath, '*'), path.join(buildPath, '**/*')], notifyLiveReload);
 }
 
@@ -108,4 +117,4 @@ function notifyLiveReload(event) {
   });
 }
 
-gulp.task('default', ['images', 'icons', 'html', 'script', 'less', 'config', 'lib']);
+gulp.task('default', ['images', 'icons', 'html', 'script', 'less', 'config', 'lib', 'markdown']);

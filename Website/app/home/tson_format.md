@@ -27,7 +27,7 @@ Let's start with an example. Here is simple TSON data file:
     url: "http://tsonspec.org"
     created: 2014-06-01
 
-Here is one that is a bit more complex, that has an example of all the main features:
+Here is one that is a bit more complex that shows all of the main TSON features:
 
     # TSON data file example that 
     # is still convertible to JSON
