@@ -1,12 +1,12 @@
 <h2>Format TSON</h2>
 <p>Formats a TSON string.</p>
-<form id="format_form" novalidate ng-submit="submitForm()" ng-controller="formatController">
+<form id="format_form" novalidate ng-submit="submitForm()">
 	<div class="form-group">
 		<label for="tsonTextArea">Type or paste your TSON data here:</label>
 		<textarea class="form-control" id="codeTextArea" rows="20" cols ng-model="tson" name="tsonTextArea"></textarea>
 	</div>
 	<div>
-		<input class="btn btn-primary" type="submit" value="Format TSON" analytics-on />
+		<input class="btn btn-primary" type="submit" value="Format TSON" analytics-on analytics-category="Commands"/>
 	</div>
 	<hr/>
 	<div class="form-group" ng-show="result && result.tson">
