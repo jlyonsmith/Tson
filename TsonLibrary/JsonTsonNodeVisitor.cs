@@ -38,7 +38,7 @@ namespace TsonLibrary
                 var kv = e.Current;
 
                 if (addComma)
-                    sb.AppendLine(", ");
+                    sb.Append(", ");
                 else
                     addComma = true;
 
@@ -64,7 +64,7 @@ namespace TsonLibrary
                 var v = e.Current;
 
                 if (addComma)
-                    sb.AppendLine(", ");
+                    sb.Append(", ");
                 else
                     addComma = true;
 
@@ -78,7 +78,13 @@ namespace TsonLibrary
 
         protected override TsonNode VisitString(TsonStringNode node)
         {
-            sb.AppendFormat("\"{0}\"", node.Value.ToString());
+            string s = node.Value.ToString()
+                .Replace("\n", "\\n")
+                .Replace("\r", "\\r");
+
+            // TODO: Any other characters from http://json.org
+
+            sb.AppendFormat("\"{0}\"", s);
 
             return node;
         }

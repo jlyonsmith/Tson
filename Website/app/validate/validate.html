@@ -16,9 +16,15 @@
 	</div>
 	<hr/>
 	<div class="alert alert-success" ng-show="result && result.isValid">
-		<p>The TSON is valid</p>
+		<h4 style="margin: 0;">The TSON is valid</h4>
 	</div>
-	<div class="alert alert-danger" ng-show="result && !result.isValid">
-		<p>The TSON is not valid</p>
+	<div class="panel panel-danger" ng-show="result && result.error">
+		<div class="panel-heading">
+			<h4>{{ result.error.message }} at line {{ result.error.line }}, column {{ result.error.column}}, offset {{ result.error.offset }}</h4>
+		</div>
+		<div class="panel-body">
+			<label>Error location:</label>
+			<pre><code>{{ tson | limitTo:result.error.offset }}</code></pre>
+		</div>
 	</div>
 </form>

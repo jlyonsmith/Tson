@@ -12,6 +12,7 @@ namespace TsonService
     public class FormatResponse
     {
         public string Tson { get; set; }
+        public ErrorInfo Error { get; set; }
         public ResponseStatus ResponseStatus { get; set; }
     }
 }

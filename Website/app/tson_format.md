@@ -15,8 +15,49 @@ TSON only supports 3 data types:
 - Objects
 - Arrays
 
-Comments are not considered to be data.  Because TSON supports unquoted strings, a string can represent a number, boolean, null as defined by JSON.  If you stick to these data types you can easily convert TSON to JSON.  If you don't need JSON compatability, you can define other custom data types of your choosing.
+Comments are not considered to be data.  Because TSON supports unquoted strings, a string can represent a number, boolean and null as defined by JSON.  If you stick to these data types you can easily convert TSON to JSON.  If you don't need JSON compatability, you can define other custom data types of your choosing.
 
+### Example
+
+Let's start with an example. Here is simple TSON data file:
+
+    # A simple TSON data file, convertible to JSON
+    name: TSON
+    description: A data storage format
+    url: "http://tsonspec.org"
+    created: 2014-06-01
+
+Here is one that is a bit more complex, that has an example of all the main features:
+
+    # TSON data file example that 
+    # is still convertible to JSON
+    a: some data,
+    b: some more data,
+    
+    # Blank lines are fine
+    
+    "c#1": 10, # Keys can be quoted too if needed
+    
+    e: # This will be an object
+    {
+    	x: true,
+    	y: false
+    },
+    
+    f: # Now let's try an array
+    [
+    	10, 20, 30
+    ],
+    
+    g: "Finally, let's create a 
+    long string that 
+    has line breaks in 
+    it for fun."
+    
+    # That's it.  Try cutting and pasting this in to
+    # the formatters and converters to see what 
+    # happens!
+    
 ### Syntax
 
 TSON syntax is extremely simple.  Data in both JSON and JSV formats can be represented in TSON, but TSON is superset in that it contains support for comments.
@@ -64,36 +105,3 @@ Finally, an object is defined as follows:
 ![Object](images/Object.png)
 
 The exception is the root object, where the curly brackets are optional.
-
-### Example
-
-Here is an example TSON data file:
-
-    # TSON data file example that 
-    # is convertible to JSON
-    a: some data,
-    b: some more data,
-    
-    # Blank lines are fine
-    
-    "c#1": 10, # Keys can be quoted too if needed
-    
-    e: # This will be an object
-    {
-    	x: true,
-    	y: false
-    },
-    
-    f: # Now let's try an array
-    [
-    	10, 20, 30
-    ],
-    
-    g: "Finally, let's create a 
-    long string that 
-    has line breaks in 
-    it for fun."
-    
-    # That's it.  Try cutting and pasting this in to
-    # the formatters and converters to see what 
-    # happens!

@@ -71,7 +71,7 @@ gulp.task('lib', function() {
     .pipe(gulp.dest(path.join(buildPath, "lib")));
 });
 
-gulp.task('watch', function() {
+gulp.task('serve', function() {
   startExpress();
   startLiveReload();
   console.log('Running on port', portNum);

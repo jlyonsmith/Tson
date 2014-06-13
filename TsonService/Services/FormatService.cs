@@ -12,7 +12,16 @@ namespace TsonService
         {
             FormatResponse response = new FormatResponse();
 
-            response.Tson = Tson.Format(request.Tson);
+            try
+            {
+                response.Tson = Tson.Format(request.Tson);
+            }
+            catch (TsonParseException e)
+            {
+                var location = e.ErrorLocation;
+
+                response.Error = new ErrorInfo(e.Message, location.Line, location.Column, location.Offset);
+            }
 
             return response;
         }

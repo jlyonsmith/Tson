@@ -12,7 +12,19 @@ namespace TsonService
         {
             var response = new ValidateResponse();
 
-            response.IsValid = Tson.Validate(request.Tson);
+            try
+            {
+                new TsonParser().Parse(request.Tson);
+
+                response.IsValid = true;
+            }
+            catch (TsonParseException e)
+            {
+                var location = e.ErrorLocation;
+
+                response.Error = new ErrorInfo(e.Message, location.Line, location.Column, location.Offset);
+                response.IsValid = false;
+            }
 
             return response;
         }
