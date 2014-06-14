@@ -133,6 +133,13 @@ namespace TsonLibrary.Tests
         }
 
         [Test()]
+        public void TestBadTrailingBrace()
+        {
+            string tsonText = @"{a:1";
+            Assert.Throws<TsonParseException>(() => new TsonParser().Parse(tsonText));
+        }
+
+        [Test()]
         public void TestEmptyObject()
         {
             string tsonText = @"

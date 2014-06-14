@@ -84,7 +84,7 @@ A quoted string is defined as follows:
 
 ![QuotedString](images/QuotedString.png)
 
-Within a quoted string any text is valid, including newlines.  A double quote may be included by typing two in a row (""). 
+Within a quoted string any text is valid except `\` and `"`.  A double quote (`"`) may be included by using the standard JSON control sequence `\"`.  See the diagram for the other allowed control sequences.  Newlines, carriage returns, tabs and forward slashes (`/`) can also be included in the string just by typing them, as your editor allows.  An empty string is represented by  `""`.
 
 #### String
 
@@ -105,3 +105,9 @@ Finally, an object is defined as follows:
 ![Object](images/Object.png)
 
 The exception is the root object, where the curly brackets are optional.
+
+### Implementations
+
+#### C&#35;
+
+There is a reference implementation in C# along with this website, web service and additional sample and test code at [https://github.com/jlyonsmith/tson](https://github.com/jlyonsmith/tson).

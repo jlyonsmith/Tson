@@ -79,10 +79,14 @@ namespace TsonLibrary
         protected override TsonNode VisitString(TsonStringNode node)
         {
             string s = node.Value.ToString()
+                .Replace("\"", "\\\"")
+                .Replace("\\", "\\\\")
+                .Replace("/", "\\/")
+                .Replace("\b", "\\b")
+                .Replace("\f", "\\f")
                 .Replace("\n", "\\n")
-                .Replace("\r", "\\r");
-
-            // TODO: Any other characters from http://json.org
+                .Replace("\r", "\\r")
+                .Replace("\t", "\\t");
 
             sb.AppendFormat("\"{0}\"", s);
 

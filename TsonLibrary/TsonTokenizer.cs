@@ -167,6 +167,11 @@ namespace TsonLibrary
             return (c == ',' || c == ':' || c == '[' || c == ']' || c == '{' || c == '}' || c == '"' || c == '#');
         }
 
+        public static bool IsTsonControl(char c)
+        {
+            return (c == '"' || c == '\\' || c == '/' || c == 'b' || c == 'f' || c == 'n' || c == 'r' || c == 't' || c == 'u');
+        }
+
         public virtual TsonToken Next()
         {
             // Are we all done?
@@ -220,21 +225,83 @@ namespace TsonLibrary
             else if (c == '"')
             {
                 tokenLocation = currentLocation;
+
+                StringBuilder sb = new StringBuilder();
+                StringBuilder sb2 = new StringBuilder(4);
+
+                sb.Append(c);
                 MoveToNextChar();
 
                 while ((c = CurrentChar()) != '\0' && c != '"')
                 {
+                    if (c == '\\')
+                    {
+                        MoveToNextChar();
+
+                        if ((c = CurrentChar()) == '\0' || !IsTsonControl(c))
+                            return TsonToken.Error(currentLocation);
+
+                        switch (c)
+                        {
+                        case '"':
+                        case '\\':
+                        case '/':
+                            sb.Append(c);
+                            break;
+                        case 'b':
+                            sb.Append('\b');
+                            break;
+                        case 'f':
+                            sb.Append('\f');
+                            break;
+                        case 'n':
+                            sb.Append('\n');
+                            break;
+                        case 'r':
+                            sb.Append('\r');
+                            break;
+                        case 't':
+                            sb.Append('\t');
+                            break;
+                        case 'u':
+                            sb2.Clear();
+                            ushort n;
+                            TextLocation digitLocation = currentLocation;
+
+                            for (int i = 0; i < 4; i++)
+                            {
+                                MoveToNextChar();
+
+                                if ((c = CurrentChar()) == '\0' || c == '"')
+                                    return TsonToken.Error(currentLocation);
+
+                                sb2.Append(CurrentChar());
+                            }
+
+                            if (!UInt16.TryParse(sb2.ToString(), NumberStyles.AllowHexSpecifier, null, out n))
+                                return TsonToken.Error(digitLocation);
+
+                            sb.Append((char)n);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        sb.Append(c);
+                    }
+
                     MoveToNextChar();
                 }
 
-                if (CurrentChar() == '"')
+                if (c == '"')
                 {
+                    sb.Append(c);
                     MoveToNextChar();
 
-                    return TsonToken.String(tokenLocation, SliceInput(ref tokenLocation, ref currentLocation));
+                    return TsonToken.String(tokenLocation, sb.ToString());
                 }
                 else
-                    return TsonToken.Error(tokenLocation);
+                    return TsonToken.Error(currentLocation);
             }
 
             switch ((char)c)

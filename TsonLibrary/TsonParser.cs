@@ -92,7 +92,12 @@ namespace TsonLibrary
                     break;
                 }
                 else if (token.IsEnd)
+                {
+                    if (hasLeftBrace)
+                        throw new TsonParseException(token, "Expected '}'");
+
                     break;
+                }
                 else
                     throw new TsonParseException(token, "Expected ',' or EOF" + (hasLeftBrace ? ", or '}'" : ""));
             }

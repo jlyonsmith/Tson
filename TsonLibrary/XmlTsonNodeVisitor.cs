@@ -83,7 +83,20 @@ namespace TsonLibrary
 
         protected override TsonNode VisitString(TsonStringNode node)
         {
-            sb.Append(node.Value.ToString());
+            string s = node.Value.ToString()
+                .Replace("\"", "&quot;")
+                .Replace("'", "&apos;")
+                .Replace("&", "&amp;")
+                .Replace("<", "&lt;")
+                .Replace(">", "&gt;")
+                .Replace("\b", "&#x8;")
+                .Replace("\f", "&#xC;")
+                .Replace("\n", "&#xA;")
+                .Replace("\r", "&#xD;")
+                .Replace("\t", "&#x9");
+
+            sb.AppendFormat("\"{0}\"", s);
+
             return node;
         }
 

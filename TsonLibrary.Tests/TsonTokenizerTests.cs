@@ -102,8 +102,8 @@ namespace TsonLibrary.Tests
             TsonTokenizer tokenizer = 
                 new TsonTokenizer(
                      /*
-                     000000 00 0 01111111111 2 22222 2222333 33 33 333444444444455555555556666666666777777777788888888889999999999
-                     012345 67 8 90123456789 0 12345 6789012 34 56 789012345678901234567890123456789012345678901234567890123456789 */
+                     000000 00 0 01111111111 2 2222 22222333 33 33 333444444444455555555556666666666777777777788888888889999999999
+                     012345 67 8 90123456789 0 1234 56789012 34 56 789012345678901234567890123456789012345678901234567890123456789 */
                     "# xxx\n{\n\ta:123 #yyy\n\tb : \"abc#def\"\n}\n# zzz");
 
             TsonToken[] expectedTokens = {
@@ -127,6 +127,26 @@ namespace TsonLibrary.Tests
                 TsonToken.Whitespace(36, "\n"),
                 TsonToken.Comment(37, "# zzz"),
                 TsonToken.End(42)
+            };
+
+            AssertTokens(tokenizer, expectedTokens);
+        }
+
+        [Test]
+        public void TestInnerQuotedString()
+        {
+            TsonTokenizer tokenizer = 
+                new TsonTokenizer(
+                    /*
+                     00 0 0 0 0 0 00 01 11 11 11 11 122222 222223333333333444444444455555555556666666666777777777788888888889999999999
+                     01 2 3 4 5 6 78 90 12 34 56 78 901234 567890123456789012345678901234567890123456789012345678901234567890123456789 */
+                    "a:\"\\\"\\\\\\/\\b\\f\\n\\r\\t\\u00A9\"");
+
+            TsonToken[] expectedTokens = {
+                TsonToken.String(0, "a"),
+                TsonToken.Colon(1),
+                TsonToken.String(2, "\"\"\\/\b\f\n\r\t\u00A9\""),
+                TsonToken.End(26)
             };
 
             AssertTokens(tokenizer, expectedTokens);
