@@ -26,6 +26,7 @@
     <script type="text/javascript" src="tson2json/tson2json.js"></script>
     <script type="text/javascript" src="tson2jsv/tson2jsv.js"></script>
     <script type="text/javascript" src="tson2xml/tson2xml.js"></script>
+    <script type="text/javascript" src="json2tson/json2tson.js"></script>
 		<meta name="language" content="en" />
   	</head>
   	<body ng-controller="tsonAppController">
@@ -52,7 +53,8 @@
                   <li><a href="#/validate">Validate TSON</a></li>
       					  <li><a href="#/tson2json">TSON to JSON</a></li>
       						<li><a href="#/tson2jsv">TSON to JSV</a></li>
-      						<li><a href="#/tson2xml">TSON to XML</a></li>
+                  <li><a href="#/tson2xml">TSON to XML</a></li>
+                  <li><a href="#/json2tson">JSON to TSON</a></li>
       					</ul>
               </div> <!-- well -->
             </div> <!-- sidebar-nav-fixed -->
@@ -63,11 +65,10 @@
         </div>
         <hr>
         <footer class="container">
-          <span>
+          <span style="font-size: 9pt;">
             <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="images/cc88x31.png" /></a>
-            <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">TSON Specification</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://tsonspec.org" property="cc:attributionName" rel="cc:attributionURL">John Lyon-Smith</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+            <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">TSON Specification</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://tsonspec.org" property="cc:attributionName" rel="cc:attributionURL">John Lyon-Smith</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. <span style="color: #a0a0a0; font-size: 9pt">{{ version }}</span>
           </span>
-          <span class="pull-right" style="color: #a0a0a0; font-size: 9pt;">{{ version }}</span>
         </footer>
   		</div>
 	</body>

@@ -1,6 +1,7 @@
 ﻿using System;
 using ServiceStack;
 using TsonLibrary;
+using Newtonsoft.Json.Linq;
 
 namespace TsonService
 {
@@ -12,19 +13,41 @@ namespace TsonService
         {
             ConvertResponse response = new ConvertResponse();
 
-            FormatType formatType = (FormatType)Enum.Parse(typeof(FormatType), request.ToFormat, ignoreCase: true);
+            if (request.FromFormat == null)
+                request.FromFormat = FormatType.Tson.ToString();
 
-            switch (formatType)
+            FormatType toFormat = (FormatType)Enum.Parse(typeof(FormatType), request.ToFormat, ignoreCase: true);
+            FormatType fromFormat;
+
+            if (String.IsNullOrEmpty(request.FromFormat))
+                fromFormat = FormatType.Tson;
+            else
+                fromFormat = (FormatType)Enum.Parse(typeof(FormatType), request.FromFormat, ignoreCase: true);
+
+            if (fromFormat == FormatType.Tson)
             {
-            case FormatType.Json:
-                response.Data = Tson.ToJson(request.Tson);
-                break;
-            case FormatType.Jsv:
-                response.Data = Tson.ToJsv(request.Tson);
-                break;
-            case FormatType.Xml:
-                response.Data = Tson.ToXml(request.Tson);
-                break;
+                switch (toFormat)
+                {
+                case FormatType.Json:
+                    response.Data = Tson.ToJson(request.Data);
+                    break;
+                case FormatType.Jsv:
+                    response.Data = Tson.ToJsv(request.Data);
+                    break;
+                case FormatType.Xml:
+                    response.Data = Tson.ToXml(request.Data);
+                    break;
+                case FormatType.Tson:
+                    response.Data = request.Data;
+                    break;
+                }
+            }
+            else if (fromFormat == FormatType.Json)
+            {
+                if (toFormat != FormatType.Tson)
+                    throw new NotSupportedException();
+
+                response.Data = new TsonJTokenNodeVisitor(JObject.Parse(request.Data)).ToTson();
             }
 
             return response;

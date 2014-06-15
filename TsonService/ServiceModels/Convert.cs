@@ -14,7 +14,8 @@ namespace TsonService
     [Route("/convert", "POST")]
     public class Convert
     {
-        public string Tson { get; set; }
+        public string Data { get; set; }
+        public string FromFormat { get; set; }
         public string ToFormat { get; set; }
     }
 

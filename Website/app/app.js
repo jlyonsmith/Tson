@@ -32,6 +32,10 @@ var app = angular.module('tsonApp', [
 				templateUrl: 'tson2xml/tson2xml.html',
 				controller: 'tson2XmlController'
 			})
+			.when('/json2tson', {
+				templateUrl: 'json2tson/json2tson.html',
+				controller: 'json2TsonController'
+			})
 			.otherwise({
 				redirectTo: '/'
 			});

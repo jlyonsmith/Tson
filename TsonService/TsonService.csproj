@@ -56,6 +56,9 @@
     <Reference Include="ToolBelt.ServiceStack">
       <HintPath>..\packages\ToolBelt.ServiceStack.1.8.20528.3\lib\net45\ToolBelt.ServiceStack.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -68,6 +71,7 @@
     <Compile Include="ServiceModels\Validate.cs" />
     <Compile Include="ServiceModels\Convert.cs" />
     <Compile Include="Services\ConvertService.cs" />
+    <Compile Include="TsonJTokenVisitor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

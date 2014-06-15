@@ -1,0 +1,19 @@
+<h2>Convert JSON to TSON</h2>
+<p>Converts JSON data to TSON data.</p>
+<form id="json2tson_form" novalidate ng-submit="submitForm()">
+	<div class="form-group">
+		<label for="jsonTextArea">Type or paste your JSON data here:</label>
+		<textarea class="form-control" id="codeTextArea" rows="20" cols ng-model="json" name="jsonTextArea"></textarea>
+	</div>
+	<div>
+		<input class="btn btn-primary" type="submit" value="Convert to TSON " analytics-on analytics-category="Commands" />
+	</div>
+	<hr/>
+	<div class="form-group" ng-show="result && result.data">
+		<label for="convertedTextArea">Equivalent TSON:</label>
+		<pre><code>{{ result.data }}</code></pre>
+	</div>
+	<div class="alert alert-danger" ng-show="result && result.responseStatus">
+		<p>The JSON is not valid</p>
+	</div>
+</form>
