@@ -3,7 +3,7 @@
 <form id="json2tson_form" novalidate ng-submit="submitForm()">
 	<div class="form-group">
 		<label for="jsonTextArea">Type or paste your JSON data here:</label>
-		<textarea class="form-control" id="codeTextArea" rows="20" cols ng-model="json" name="jsonTextArea"></textarea>
+		<textarea class="form-control" id="codeTextArea" rows="20" cols ng-model="json" name="jsonTextArea" ng-change="jsonChanged()"></textarea>
 	</div>
 	<div>
 		<input class="btn btn-primary" type="submit" value="Convert to TSON " analytics-on analytics-category="Commands" />

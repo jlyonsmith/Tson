@@ -8,4 +8,8 @@ app.controller('validateController', function($scope, $location, $analytics, tso
 					$scope.result = data;
 				});
 		};
-	});
+
+	$scope.tsonChanged = function() {
+		$scope.result = null;
+	};
+});

@@ -3,7 +3,7 @@
 <form id="tson2xml_form" novalidate ng-submit="submitForm()">
 	<div class="form-group">
 		<label for="tsonTextArea">Type or paste your TSON data here:</label>
-		<textarea class="form-control" id="codeTextArea" rows="20" cols ng-model="tson" name="tsonTextArea"></textarea>
+		<textarea class="form-control" id="codeTextArea" rows="20" cols ng-model="tson" name="tsonTextArea" ng-change="tsonChanged()"></textarea>
 	</div>
 	<div>
 		<input class="btn btn-primary" type="submit" value="Convert to XML" analytics-on analytics-category="Commands" />

@@ -12,4 +12,8 @@ app.controller('formatController', function($scope, $location, $analytics, tsonS
 					$scope.result = data;
 				});
 		};
+
+	$scope.tsonChanged = function() {
+		$scope.result = null;
+	};
 });
