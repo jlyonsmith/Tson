@@ -4,10 +4,11 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyTitle("TsonLibrary")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Jamoki LLC")]
+[assembly: AssemblyCompany("John Lyon-Smith")]
 [assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("(c) 2014, Jamoki LLC")]
+[assembly: AssemblyCopyright("(c) 2014, John Lyon-Smith")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.10616.2")]
 

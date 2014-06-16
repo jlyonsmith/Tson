@@ -1,9 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Version>
   <Files>
-    <File>TsonLibrary/Properties/AssemblyInfo.cs</File>
-    <File>Scratch/Tson.version.txt</File>
     <File>TsonService/Properties/AssemblyInfo.cs</File>
+    <File>TsonLibrary/Properties/AssemblyInfo.cs</File>
+    <File>PrettyTson/Properties/AssemblyInfo.cs</File>
+    <File>Tson2Jsv/Properties/AssemblyInfo.cs</File>
+    <File>Scratch/Tson.version.txt</File>
     <File>Website/app/version.js</File>
     <File>TsonService/Scripts/tson-v${Major}-${Minor}.conf</File>
     <File>TsonService/Scripts/tson-v${Major}-${Minor}.sh</File>
@@ -12,6 +14,6 @@
   <Major>1</Major>
   <Minor>0</Minor>
   <Build>10616</Build>
-  <Revision>1</Revision>
+  <Revision>2</Revision>
   <StartYear>2014</StartYear>
 </Version>
