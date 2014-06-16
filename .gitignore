@@ -2,6 +2,7 @@
 *.sdf
 *.orig
 *.userprefs
+*.nupkg
 .DS_Store
 thumbs.db
 npm-debug.log

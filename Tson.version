@@ -7,10 +7,11 @@
     <File>Website/app/version.js</File>
     <File>TsonService/Scripts/tson-v${Major}-${Minor}.conf</File>
     <File>TsonService/Scripts/tson-v${Major}-${Minor}.sh</File>
+    <File>TsonLibrary.nuspec</File>
   </Files>
   <Major>1</Major>
   <Minor>0</Minor>
   <Build>10616</Build>
-  <Revision>0</Revision>
+  <Revision>1</Revision>
   <StartYear>2014</StartYear>
 </Version>
