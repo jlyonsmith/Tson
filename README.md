@@ -16,7 +16,11 @@ This project contains the source code for that page plus reference implementatio
 
 ### C&#35;
 
-The C# library contains TSON tokenizer and parser and utility classes.
+The C# library contains simple, efficient and cononical tokenizer and parser and utility classes for TSON.  Notice that there is no object serialization or DOM support in the library.  It is expected that you will use your existing JSON, JSV or XML serialization/DOM functionality from one of the excellent available libraries, for example:
+
+- [JSON.NET](http://james.newtonking.com/json)
+- [ServiceStack.Text](https://github.com/ServiceStack/ServiceStack.Text)
+- [LINQ to XML](http://msdn.microsoft.com/en-us/library/bb387098.aspx)
 
 #### `Tson`
 

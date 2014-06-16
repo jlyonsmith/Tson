@@ -4,8 +4,8 @@
 
 The TSON (Typeable Simple Object Notation) is based on the [JSON](http://www.json.org/) and [JSV](http://mono.servicestack.net/mythz_blog/?p=176) data formats.  It is intended to be a _storage_ and not a _transmission_ format, and one that is editable by humans.  As such it includes the following primary differences which benefit humans vs. computers:
 
-- Double quotes (" ") are optional, and can be omitted for most simple alphanumeric strings
-- When quotes are used, everything within them, including newlines, is part of the string.
+- Double quotes (" ") are optional, and can be omitted for most simple alphanumeric strings.
+- When quotes are used, everything within them, including newlines, is part of the string.  Additionally, you can use any of the JSON control sequences beginning with `\`.
 - You can include comments in the data using the hash (#) symbol.
 - TSON data always contains an _object_ at the root.  The root curly brackets ({ }) are optional _only for this object_.
 
@@ -77,6 +77,8 @@ Whitespace at the beginning and end of an unquoted string is trimmed off and is 
     a:   A string in space    # with a comment
     
 The value of `a` is simply `A string in space`.  If you need the whitespace, quote the string.
+
+JSON control sequences are ignored in an unquoted string.
 
 #### Quoted String
 
