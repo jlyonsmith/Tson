@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Default</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ItemType>GenericProject</ItemType>
+    <ProjectGuid>{3359E79D-0CCE-4A75-A3EF-ABED3756A6BF}</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Default|AnyCPU' ">
+    <OutputPath>.\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="bower.json" />
+    <None Include="gulpfile.js" />
+    <None Include="package.json" />
+    <None Include="tsonspec.org.mdproj" />
+    <None Include="app\404.html" />
+    <None Include="app\app-controller.js" />
+    <None Include="app\app.js" />
+    <None Include="app\app.less" />
+    <None Include="app\config.debug.json" />
+    <None Include="app\config.release.json" />
+    <None Include="app\favicon.ico" />
+    <None Include="app\favicon.png" />
+    <None Include="app\index.html" />
+    <None Include="app\version.js" />
+    <None Include="app\format\format.html" />
+    <None Include="app\format\format.js" />
+    <None Include="app\home\home.html" />
+    <None Include="app\home\home.js" />
+    <None Include="app\home\tson_format.md" />
+    <None Include="app\images\Array.png" />
+    <None Include="app\images\Group.png" />
+    <None Include="app\images\Object.png" />
+    <None Include="app\images\QuotedString.png" />
+    <None Include="app\images\String.png" />
+    <None Include="app\images\UnquotedString.png" />
+    <None Include="app\images\cc88x31.png" />
+    <None Include="app\images\email.png" />
+    <None Include="app\images\facebook.png" />
+    <None Include="app\images\google.png" />
+    <None Include="app\images\linkedin.png" />
+    <None Include="app\images\twitter.png" />
+    <None Include="app\json2tson\json2tson.html" />
+    <None Include="app\json2tson\json2tson.js" />
+    <None Include="app\services\tsonService.js" />
+    <None Include="app\tson2json\tson2json.html" />
+    <None Include="app\tson2json\tson2json.js" />
+    <None Include="app\tson2jsv\tson2jsv.html" />
+    <None Include="app\tson2jsv\tson2jsv.js" />
+    <None Include="app\tson2xml\tson2xml.html" />
+    <None Include="app\tson2xml\tson2xml.js" />
+    <None Include="app\validate\validate.html" />
+    <None Include="app\validate\validate.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="app\" />
+  </ItemGroup>
+</Project>

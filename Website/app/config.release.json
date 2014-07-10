@@ -1,6 +1,6 @@
 {
   "name": "tsonApp.config",
   "constants": {
-    "tsonApiUrl": "http://api.jamoki.com/tson/v1/"
+    "tsonApiUrl": "http://api.tsonspec.org/v1/"
   }
 }
