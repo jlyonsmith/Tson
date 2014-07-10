@@ -4,10 +4,13 @@
 
 The TSON (Typeable Simple Object Notation) is based on the [JSON](http://www.json.org/) and [JSV](http://mono.servicestack.net/mythz_blog/?p=176) data formats.  It is intended to be a _storage_ and not a _transmission_ format, and one that is editable by humans.  As such it includes the following primary differences which benefit humans vs. computers:
 
-- Double quotes (" ") are optional, and can be omitted for most simple alphanumeric strings.
-- When quotes are used, everything within them, including newlines, is part of the string.  Additionally, you can use any of the JSON control sequences beginning with `\`.
 - You can include comments in the data using the hash (#) symbol.
-- TSON data always contains an _object_ at the root.  The root curly brackets ({ }) are optional _only for this object_.
+- Double quotes (" ") are optional, and can be omitted for most simple alphanumeric strings.
+- Strings can span multiple lines, whether quoted or not.
+- When quotes are _not_ used, newlines, tabs and spaces at the ends of the string are trimmed.
+- When quotes _are_ used all spaces, newlines and tabs are part of the string. 
+- Quoted strings can use any of the JSON control sequences beginning with `\`.
+- TSON data always contains an _object_ at the root.  Therefore the curly brackets ({ }) are _optional_ for this object.
 
 TSON only supports 3 data types:
 
@@ -15,7 +18,7 @@ TSON only supports 3 data types:
 - Objects
 - Arrays
 
-Comments are not considered to be data.  Because TSON supports unquoted strings, a string can represent a number, boolean and null as defined by JSON.  If you stick to these data types you can easily convert TSON to JSON.  If you don't need JSON compatability, you can define other custom data types of your choosing.
+Because TSON supports unquoted strings, a string can represent a number, boolean and null as defined by JSON.  If you stick to these data types you can easily convert TSON to JSON.  If you don't need JSON compatability, you can define other custom data types of your choosing.  Comments are not generally considered to be part of the data, but they are easy to parse out treat as such if you wish.
 
 ### Example
 
@@ -49,10 +52,15 @@ Here is one that is a bit more complex that shows all of the main TSON features:
     	10, 20, 30
     ],
     
-    g: "Finally, let's create a 
+    g: "Let's create a 
     long string that 
     has line breaks in 
-    it for fun."
+    it for fun.",
+    
+    h: And this
+    works 
+    just fine 
+    as well!
     
     # That's it.  Try cutting and pasting this in to
     # the formatters and converters to see what 
@@ -112,4 +120,4 @@ The exception is the root object, where the curly brackets are optional.
 
 #### C&#35;
 
-There is a reference implementation in C# along with this website, web service and additional sample and test code at [https://github.com/jlyonsmith/tson](https://github.com/jlyonsmith/tson).
+There is a reference implementation in C# along with this website, web service and additional sample and test code at [https://github.com/jlyonsmith/tson](https://github.com/jlyonsmith/tson).  It is also available on [NuGet](https://www.nuget.org/packages/TsonLibrary/) as TsonLibrary.
