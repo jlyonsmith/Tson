@@ -1,3 +1,4 @@
+
 var gulp = require('gulp'),
   argv = require('yargs').argv,
   less = require('gulp-less')
@@ -76,7 +77,7 @@ gulp.task('lib', function() {
 gulp.task('markdown', function() {
   return gulp.src(paths.markdown)
     .pipe(markdown())
-    .pipe(gulp.dest(path.join(buildPath))); 
+    .pipe(gulp.dest(buildPath)); 
 })
 
 gulp.task('serve', function() {
