@@ -25,12 +25,12 @@ namespace TsonLibrary
         {
         }
 
-        public TsonNode Parse(string input)
+        public TsonRootObjectNode Parse(string input)
         {
             tokenizer = new TsonCleanTokenizer(input);
 
             var token  = tokenizer.PeekNext();
-            TsonNode node;
+            TsonRootObjectNode node;
 
             node = ParseRootObject();
 
@@ -42,7 +42,7 @@ namespace TsonLibrary
             return node;
         }
 
-        private TsonNode ParseRootObject()
+        private TsonRootObjectNode ParseRootObject()
         {
             TsonToken token = tokenizer.Next();
             bool hasLeftBrace = false;
@@ -59,7 +59,7 @@ namespace TsonLibrary
             else if (token.IsEnd)
                 return new TsonRootObjectNode();
 
-            var keyValues = new List<KeyValuePair<TsonStringNode, TsonNode>>();
+            var keyValues = new TsonKeyedNodeList();
 
             while (true)
             {
@@ -105,7 +105,7 @@ namespace TsonLibrary
             return new TsonRootObjectNode(keyValues);
         }
 
-        private TsonNode ParseObject()
+        private TsonObjectNode ParseObject()
         {
             TsonToken token = tokenizer.Next();
 
@@ -117,7 +117,7 @@ namespace TsonLibrary
             if (token.IsRightCurlyBrace)
                 return new TsonObjectNode();
 
-            var keyValues = new List<KeyValuePair<TsonStringNode, TsonNode>>();
+            var keyValues = new TsonKeyedNodeList();
 
             while (true)
             {
@@ -151,7 +151,7 @@ namespace TsonLibrary
             return new TsonObjectNode(keyValues);
         }
 
-        private TsonNode ParseArray()
+        private TsonArrayNode ParseArray()
         {
             TsonToken token = tokenizer.Next();
 
@@ -167,7 +167,7 @@ namespace TsonLibrary
                 return new TsonArrayNode();
             }
 
-            var values = new List<TsonNode>();
+            var values = new TsonNodeList();
 
             while (true)
             {

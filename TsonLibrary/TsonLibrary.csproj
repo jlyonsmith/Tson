@@ -43,6 +43,13 @@
     <Compile Include="JsonTsonNodeVisitor.cs" />
     <Compile Include="XmlTsonNodeVisitor.cs" />
     <Compile Include="JsvTsonNodeVisitor.cs" />
+    <Compile Include="TextLocation.cs" />
+    <Compile Include="TsonSerializer.cs" />
+    <Compile Include="PropertyVisitor.cs" />
+    <Compile Include="SerializePropertyVisitor.cs" />
+    <Compile Include="DeserializeTsonNodeVisitor.cs" />
+    <Compile Include="CompactTsonNodeVisitor.cs" />
+    <Compile Include="InstanceProperty.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

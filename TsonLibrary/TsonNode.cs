@@ -5,7 +5,6 @@ namespace TsonLibrary
 {
     public enum TsonNodeType
     {
-        RootObject,
         Object,
         Array,
         Number,
@@ -34,16 +33,76 @@ namespace TsonLibrary
         public bool IsNull { get { return NodeType == TsonNodeType.Null; } }
     }
 
-    public class TsonObjectNode : TsonNode
+    public class TsonKeyedNodeList : List<KeyValuePair<TsonStringNode, TsonNode>>
     {
-        public List<KeyValuePair<TsonStringNode, TsonNode>> KeyValues { get; protected set; }
-
-        public TsonObjectNode(TsonNodeType nodeType = TsonNodeType.Object) : base(nodeType)
+        public void Add(string key, double n)
         {
-            this.KeyValues = new List<KeyValuePair<TsonStringNode, TsonNode>>();
+            this.Add(new KeyValuePair<TsonStringNode, TsonNode>(
+                new TsonStringNode(key),
+                new TsonNumberNode(n)));
         }
 
-        public TsonObjectNode(List<KeyValuePair<TsonStringNode, TsonNode>> keyValues) : this()
+        public void Add(string key, string s)
+        {
+            this.Add(new KeyValuePair<TsonStringNode, TsonNode>(
+                new TsonStringNode(key),
+                new TsonStringNode(s)));
+        }
+
+        public void Add(string key, bool b)
+        {
+            this.Add(new KeyValuePair<TsonStringNode, TsonNode>(
+                new TsonStringNode(key),
+                new TsonBooleanNode(b)));
+        }
+
+        public void Add(string key)
+        {
+            this.Add(new KeyValuePair<TsonStringNode, TsonNode>(
+                new TsonStringNode(key),
+                new TsonNullNode()));
+        }
+
+        public void Add(string key, TsonNode node)
+        {
+            this.Add(new KeyValuePair<TsonStringNode, TsonNode>(
+                new TsonStringNode(key), node));
+        }
+    }
+
+    public class TsonNodeList : List<TsonNode>
+    {
+        public void Add(double n)
+        {
+            this.Add(new TsonNumberNode(n));
+        }
+
+        public void Add(string s)
+        {
+            this.Add(new TsonStringNode(s));
+        }
+
+        public void Add(bool b)
+        {
+            this.Add(new TsonBooleanNode(b));
+        }
+
+        public void Add()
+        {
+            this.Add(new TsonNullNode());
+        }
+    }
+
+    public class TsonObjectNode : TsonNode
+    {
+        public TsonKeyedNodeList KeyValues { get; protected set; }
+
+        public TsonObjectNode() : base(TsonNodeType.Object)
+        {
+            this.KeyValues = new TsonKeyedNodeList();
+        }
+
+        public TsonObjectNode(TsonKeyedNodeList keyValues) : this()
         {
             this.KeyValues = keyValues;
         }
@@ -53,11 +112,11 @@ namespace TsonLibrary
     {
         public string PreComment { get; private set; }
 
-        public TsonRootObjectNode() : base(TsonNodeType.RootObject)
+        public TsonRootObjectNode() : base()
         {
         }
 
-        public TsonRootObjectNode(List<KeyValuePair<TsonStringNode, TsonNode>> keyValues) : this()
+        public TsonRootObjectNode(TsonKeyedNodeList keyValues) : this()
         {
             this.KeyValues = keyValues;
         }
@@ -65,42 +124,88 @@ namespace TsonLibrary
 
     public class TsonArrayNode : TsonNode
     {
-        public List<TsonNode> Values { get; protected set; }
+        public TsonNodeList Values { get; protected set; }
 
         public TsonArrayNode() : base(TsonNodeType.Array)
         {
-            this.Values = new List<TsonNode>();
+            this.Values = new TsonNodeList();
         }
 
-        public TsonArrayNode(List<TsonNode> values) : this()
+        public TsonArrayNode(TsonNodeList values) : this()
         {
             this.Values = values;
         }
+
+        public void Add(TsonStringNode node)
+        {
+            this.Values.Add(node);
+        }
+
+        public void Add(TsonNumberNode node)
+        {
+            this.Values.Add(node);
+        }
+
+        public void Add(TsonBooleanNode node)
+        {
+            this.Values.Add(node);
+        }
+
+        public void Add(TsonNullNode node)
+        {
+            this.Values.Add(node);
+        }
     }
 
-    public abstract class TsonValueNode<T> : TsonNode
+    public interface ITsonValueNode<T>
     {
-        public T Value { get; protected set; }
+        T Value { get; set; }
+    }
+
+    public abstract class TsonValueNode<TData, TNode> : TsonNode, ITsonValueNode<TData> where TNode: class,ITsonValueNode<TData>
+    {
+        public TData Value { get; set; }
 
         public TsonValueNode(TsonNodeType nodeType) : base(nodeType)
         {
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+
+            if (Object.ReferenceEquals(this, obj))
+                return true;
+
+            var otherNode = obj as TNode;
+
+            if (otherNode == null)
+                return false;
+
+            return this.Value.Equals(otherNode.Value);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0}[{1}]", this.GetType().FullName, Value.ToString());
+        }
     }
 
-    public class TsonBooleanNode : TsonValueNode<Boolean>
+    public class TsonBooleanNode : TsonValueNode<Boolean, TsonBooleanNode>
     {
         public TsonBooleanNode(Boolean b) : base(TsonNodeType.Boolean)
         {
             this.Value = b;
         }
-
-        public override string ToString()
-        {
-            return Value.ToString();
-        }
     }
 
-    public class TsonNullNode : TsonValueNode<Object>
+    public class TsonNullNode : TsonValueNode<Object, TsonNullNode>
     {
         public TsonNullNode() : base(TsonNodeType.Null)
         {
@@ -108,7 +213,7 @@ namespace TsonLibrary
         }
     }
 
-    public class TsonNumberNode : TsonValueNode<Double>
+    public class TsonNumberNode : TsonValueNode<Double, TsonNumberNode>
     {
         public TsonNumberNode(Double n) : base(TsonNodeType.Number)
         {
@@ -116,7 +221,7 @@ namespace TsonLibrary
         }
     }
 
-    public class TsonStringNode : TsonValueNode<String>
+    public class TsonStringNode : TsonValueNode<String, TsonStringNode>
     {
         public bool IsQuoted { get; set; }
 

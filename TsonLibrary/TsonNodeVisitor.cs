@@ -20,13 +20,18 @@ namespace TsonLibrary
             case TsonNodeType.Number:
                 return this.VisitNumber((TsonNumberNode)node);
             case TsonNodeType.Object:
-                return this.VisitObject((TsonObjectNode)node);
-            case TsonNodeType.RootObject:
-                return this.VisitRootObject((TsonRootObjectNode)node);
+                {
+                    var rootObject = node as TsonRootObjectNode;
+
+                    if (rootObject != null)
+                        return this.VisitRootObject((TsonRootObjectNode)node);
+                    else
+                        return this.VisitObject((TsonObjectNode)node);
+                }
             case TsonNodeType.String:
                 return this.VisitString((TsonStringNode)node);
             default:
-                throw new NotImplementedException();
+                throw new NotSupportedException();
             }
         }
 

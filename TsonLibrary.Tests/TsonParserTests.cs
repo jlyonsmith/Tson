@@ -9,107 +9,6 @@ namespace TsonLibrary.Tests
     [TestFixture()]
     public class TsonParserTests
     {
-        public class TestNodeVisitor : TsonNodeVisitor
-        {
-            private StringBuilder sb;
-            private TsonNode node;
-
-            public TestNodeVisitor(TsonNode node)
-            {
-                this.node = node;
-            }
-
-            public override string ToString()
-            {
-                sb = new StringBuilder();
-                Visit(node);
-                return sb.ToString();
-            }
-
-            protected override TsonNode VisitRootObject(TsonRootObjectNode node)
-            {
-                return VisitObject(node);
-            }
-
-            protected override TsonNode VisitObject(TsonObjectNode node)
-            {
-                var e = node.KeyValues.GetEnumerator();
-                bool addComma = false;
-
-                sb.Append("{");
-
-                while (e.MoveNext())
-                {
-                    var kv = e.Current;
-
-                    if (addComma)
-                        sb.Append(",");
-                    else
-                        addComma = true;
-
-                    Visit(kv.Key);
-                    sb.Append(":");
-                    Visit(kv.Value);
-                }
-
-                sb.Append("}");
-
-                return node;
-            }
-
-            protected override TsonNode VisitArray(TsonArrayNode node)
-            {
-                var e = node.Values.GetEnumerator();
-                bool addComma = false;
-
-                sb.Append("[");
-
-                while (e.MoveNext())
-                {
-                    var v = e.Current;
-
-                    if (addComma)
-                        sb.Append(",");
-                    else
-                        addComma = true;
-
-                    Visit(v);
-                }
-
-                sb.Append("]");
-
-                return node;
-            }
-
-            protected override TsonNode VisitString(TsonStringNode node)
-            {
-                if (node.IsQuoted)
-                    sb.AppendFormat("\"{0}\"", node.Value.ToString());
-                else
-                    sb.Append(node.Value.ToString());
-
-                return node;
-            }
-
-            protected override TsonNode VisitNumber(TsonNumberNode node)
-            {
-                sb.Append(node.Value.ToString("G6", CultureInfo.InvariantCulture));
-                return node;
-            }
-
-            protected override TsonNode VisitBoolean(TsonBooleanNode node)
-            {
-                sb.Append(node.Value.ToString().ToLower());
-                return node;
-            }
-
-            protected override TsonNode VisitNull(TsonNullNode node)
-            {
-                sb.Append("null");
-                return node;
-            }
-        }
-
         [Test()]
         public void TestEmpty()
         {
@@ -118,7 +17,7 @@ namespace TsonLibrary.Tests
             TsonNode node = new TsonParser().Parse(tsonText);
 
             Assert.IsInstanceOf<TsonNode>(node);
-            Assert.AreEqual(expectedText, new TestNodeVisitor(node).ToString());
+            Assert.AreEqual(expectedText, new CompactNodeVisitor(node).ToString());
         }
 
         [Test()]
@@ -149,7 +48,7 @@ namespace TsonLibrary.Tests
             TsonNode node = new TsonParser().Parse(tsonText);
 
             Assert.IsInstanceOf<TsonObjectNode>(node);
-            Assert.AreEqual(expectedText, new TestNodeVisitor(node).ToString());
+            Assert.AreEqual(expectedText, new CompactNodeVisitor(node).ToString());
         }
 
         [Test()]
@@ -164,7 +63,7 @@ namespace TsonLibrary.Tests
             TsonNode node = new TsonParser().Parse(tsonText);
 
             Assert.IsInstanceOf<TsonObjectNode>(node);
-            Assert.AreEqual(expectedText, new TestNodeVisitor(node).ToString());
+            Assert.AreEqual(expectedText, new CompactNodeVisitor(node).ToString());
         }
 
         [Test()]
@@ -178,7 +77,7 @@ b: 456
             TsonNode node = new TsonParser().Parse(tsonText);
 
             Assert.IsInstanceOf<TsonObjectNode>(node);
-            Assert.AreEqual(expectedText, new TestNodeVisitor(node).ToString());
+            Assert.AreEqual(expectedText, new CompactNodeVisitor(node).ToString());
         }
 
         [Test()]
@@ -204,7 +103,7 @@ b: 456
             TsonNode node = new TsonParser().Parse(tsonText);
 
             Assert.IsInstanceOf<TsonObjectNode>(node);
-            Assert.AreEqual(expectedText, new TestNodeVisitor(node).ToString());
+            Assert.AreEqual(expectedText, new CompactNodeVisitor(node).ToString());
         }
 
         [Test()]
@@ -229,7 +128,7 @@ o1: {} # object
             TsonNode node = new TsonParser().Parse(tsonText);
 
             Assert.IsInstanceOf<TsonObjectNode>(node);
-            Assert.AreEqual(expectedText, new TestNodeVisitor(node).ToString());
+            Assert.AreEqual(expectedText, new CompactNodeVisitor(node).ToString());
         }
     }
 }
