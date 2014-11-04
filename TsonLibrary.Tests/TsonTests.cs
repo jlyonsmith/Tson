@@ -24,6 +24,7 @@ namespace TsonLibrary.Tests
             public TsonArrayNode<TsonStringNode> StringNodeList { get; set; }
             public TsonArrayNode<TsonNumberNode> NumberNodeList { get; set; }
             public TsonArrayNode<CustomData> CustomDataList { get; set; }
+            public TsonArrayNode<TsonObjectNode> ObjectNodeList { get; set; }
         }
 
         class CustomData : TsonTypedObjectNode
@@ -74,14 +75,20 @@ namespace TsonLibrary.Tests
                 {
                     new CustomData() { Thing1 = new TsonStringNode("pi"), Thing2 = new TsonNumberNode(3.14) },
                     new CustomData() { Thing1 = new TsonStringNode("e"), Thing2 = new TsonNumberNode(2.72) }
+                },
+                ObjectNodeList = new TsonArrayNode<TsonObjectNode>
+                {
+                    new TsonObjectNode() { { "X", 11 } },
+                    new TsonObjectNode() { { "Y", "Z" } }
                 }
             };
 
             string tson = Tson.Format(data, TsonFormatStyle.Compact);
 
             Assert.AreEqual(
-                "{NumNode:10,StringNode:abc,BoolNode:true,ObjectNode:{A:1.23,B:2},ArrayNode:[1,2],CustomData:{Thing1:xyz,Thing2:3.14},"+
-                "StringNodeList:[John,Jamey],NumberNodeList:[40,10],CustomDataList:[{Thing1:pi,Thing2:3.14},{Thing1:e,Thing2:2.72}]}", tson);
+                "{NumNode:10,StringNode:abc,BoolNode:true,ObjectNode:{A:1.23,B:2},ArrayNode:[1,2],CustomData:{Thing1:xyz,Thing2:3.14}," +
+                "StringNodeList:[John,Jamey],NumberNodeList:[40,10],CustomDataList:[{Thing1:pi,Thing2:3.14},{Thing1:e,Thing2:2.72}]," +
+                "ObjectNodeList:[{X:11},{Y:Z}]}", tson);
         }
 
         [Test()]
