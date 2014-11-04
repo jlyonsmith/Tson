@@ -39,17 +39,16 @@
     <Compile Include="TsonNodeVisitor.cs" />
     <Compile Include="TsonCleanTokenizer.cs" />
     <Compile Include="Tson.cs" />
-    <Compile Include="PrettyTsonNodeVisitor.cs" />
-    <Compile Include="JsonTsonNodeVisitor.cs" />
     <Compile Include="XmlTsonNodeVisitor.cs" />
-    <Compile Include="JsvTsonNodeVisitor.cs" />
     <Compile Include="TextLocation.cs" />
-    <Compile Include="TsonSerializer.cs" />
-    <Compile Include="PropertyVisitor.cs" />
-    <Compile Include="SerializePropertyVisitor.cs" />
-    <Compile Include="DeserializeTsonNodeVisitor.cs" />
     <Compile Include="CompactTsonNodeVisitor.cs" />
-    <Compile Include="InstanceProperty.cs" />
+    <Compile Include="TsonNotNullAttribute.cs" />
+    <Compile Include="ToJsonTsonNodeVisitor.cs" />
+    <Compile Include="ToJsvTsonNodeVisitor.cs" />
+    <Compile Include="ToPrettyTsonNodeVisitor.cs" />
+    <Compile Include="ToTypedTsonNodeVisitor.cs" />
+    <Compile Include="PropertyContext.cs" />
+    <Compile Include="TsonFormatException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

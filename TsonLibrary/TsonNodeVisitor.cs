@@ -4,6 +4,8 @@ namespace TsonLibrary
 {
     public abstract class TsonNodeVisitor
     {
+        bool visitedRoot = false;
+
         protected virtual TsonNode Visit(TsonNode node)
         {
             if (node == null)
@@ -11,31 +13,33 @@ namespace TsonLibrary
 
             switch (node.NodeType)
             {
-            case TsonNodeType.Array:
-                return this.VisitArray((TsonArrayNode)node);
+            case TsonNodeType.String:
+                return this.VisitString((TsonStringNode)node);
+            case TsonNodeType.Number:
+                return this.VisitNumber((TsonNumberNode)node);
             case TsonNodeType.Boolean:
                 return this.VisitBoolean((TsonBooleanNode)node);
             case TsonNodeType.Null:
                 return this.VisitNull((TsonNullNode)node);
-            case TsonNodeType.Number:
-                return this.VisitNumber((TsonNumberNode)node);
+            case TsonNodeType.Array:
+                return this.VisitArray((TsonArrayNodeBase)node);
             case TsonNodeType.Object:
                 {
-                    var rootObject = node as TsonRootObjectNode;
-
-                    if (rootObject != null)
-                        return this.VisitRootObject((TsonRootObjectNode)node);
+                    if (!visitedRoot)
+                    {
+                        node = this.VisitRootObject((TsonObjectNodeBase)node);
+                        visitedRoot = true;
+                        return node;
+                    }
                     else
-                        return this.VisitObject((TsonObjectNode)node);
+                        return this.VisitObject((TsonObjectNodeBase)node);
                 }
-            case TsonNodeType.String:
-                return this.VisitString((TsonStringNode)node);
             default:
                 throw new NotSupportedException();
             }
         }
 
-        protected virtual TsonNode VisitArray(TsonArrayNode node)
+        protected virtual TsonNode VisitArray(TsonArrayNodeBase node)
         {
             return node;
         }
@@ -55,12 +59,12 @@ namespace TsonLibrary
             return node;
         }
 
-        protected virtual TsonNode VisitObject(TsonObjectNode node)
+        protected virtual TsonNode VisitObject(TsonObjectNodeBase node)
         {
             return node;
         }
 
-        protected virtual TsonNode VisitRootObject(TsonRootObjectNode node)
+        protected virtual TsonNode VisitRootObject(TsonObjectNodeBase node)
         {
             return node;
         }

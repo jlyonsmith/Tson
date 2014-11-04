@@ -25,12 +25,12 @@ namespace TsonLibrary
         {
         }
 
-        public TsonRootObjectNode Parse(string input)
+        public TsonObjectNode Parse(string input)
         {
             tokenizer = new TsonCleanTokenizer(input);
 
             var token  = tokenizer.PeekNext();
-            TsonRootObjectNode node;
+            TsonObjectNode node;
 
             node = ParseRootObject();
 
@@ -42,10 +42,11 @@ namespace TsonLibrary
             return node;
         }
 
-        private TsonRootObjectNode ParseRootObject()
+        private TsonObjectNode ParseRootObject()
         {
             TsonToken token = tokenizer.Next();
             bool hasLeftBrace = false;
+            var node = new TsonObjectNode();
 
             if (token.IsLeftCurlyBrace)
             {
@@ -54,12 +55,10 @@ namespace TsonLibrary
                 token = tokenizer.Next();
 
                 if (token.IsRightCurlyBrace)
-                    return new TsonRootObjectNode();
+                    return node;
             }
             else if (token.IsEnd)
-                return new TsonRootObjectNode();
-
-            var keyValues = new TsonKeyedNodeList();
+                return node;
 
             while (true)
             {
@@ -75,7 +74,7 @@ namespace TsonLibrary
 
                 TsonNode value = ParseValueArrayOrObject();
 
-                keyValues.Add(new KeyValuePair<TsonStringNode, TsonNode>(key, value));
+                node.Add(key, value);
 
                 token = tokenizer.Next();
 
@@ -102,7 +101,7 @@ namespace TsonLibrary
                     throw new TsonParseException(token, "Expected ',' or EOF" + (hasLeftBrace ? ", or '}'" : ""));
             }
 
-            return new TsonRootObjectNode(keyValues);
+            return node;
         }
 
         private TsonObjectNode ParseObject()
@@ -114,10 +113,10 @@ namespace TsonLibrary
 
             token = tokenizer.Next();
 
-            if (token.IsRightCurlyBrace)
-                return new TsonObjectNode();
+            var node = new TsonObjectNode();
 
-            var keyValues = new TsonKeyedNodeList();
+            if (token.IsRightCurlyBrace)
+                return node;
 
             while (true)
             {
@@ -133,7 +132,7 @@ namespace TsonLibrary
 
                 TsonNode value = ParseValueArrayOrObject();
 
-                keyValues.Add(new KeyValuePair<TsonStringNode, TsonNode>(key, value));
+                node.Add(key, value);
 
                 token = tokenizer.Next();
 
@@ -148,7 +147,7 @@ namespace TsonLibrary
                     throw new TsonParseException(token, "Expected a '}'");
             }
 
-            return new TsonObjectNode(keyValues);
+            return node;
         }
 
         private TsonArrayNode ParseArray()
@@ -160,20 +159,20 @@ namespace TsonLibrary
 
             token = tokenizer.PeekNext();
 
+            var node = new TsonArrayNode();
+
             if (token.IsRightSquareBrace)
             {
                 tokenizer.Next();
 
-                return new TsonArrayNode();
+                return node;
             }
-
-            var values = new TsonNodeList();
 
             while (true)
             {
                 TsonNode value = ParseValueArrayOrObject();
 
-                values.Add(value);
+                node.Add(value);
 
                 token = tokenizer.Next();
 
@@ -185,7 +184,7 @@ namespace TsonLibrary
                     throw new TsonParseException(token, "Expected a ',' or a ']'");
             }
 
-            return new TsonArrayNode(values);
+            return node;
         }
 
         private TsonNode ParseValueArrayOrObject()

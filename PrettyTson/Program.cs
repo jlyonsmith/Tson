@@ -16,7 +16,7 @@ namespace Tson2Jsv
 
             try
             {
-                string s = Tson.Format(File.ReadAllText(args[0]));
+                string s = Tson.Format(File.ReadAllText(args[0]), TsonFormatStyle.Pretty);
 
                 Console.WriteLine(s);
             }

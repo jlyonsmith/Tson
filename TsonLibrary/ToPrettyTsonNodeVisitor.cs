@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Text;
 using System.Globalization;
+using System.Collections;
 
 namespace TsonLibrary
 {
-    public class PrettyTsonNodeVisitor : TsonNodeVisitor
+    public class ToPrettyTsonNodeVisitor : TsonNodeVisitor
     {
         private StringBuilder sb;
         private TsonNode rootNode;
         private string indentChars;
         private string indent;
 
-        public PrettyTsonNodeVisitor(TsonNode rootNode, string indentChars = "  ")
+        public ToPrettyTsonNodeVisitor(TsonNode rootNode, string indentChars = "  ")
         {
             this.rootNode = rootNode;
             this.indentChars = indentChars;
             this.indent = String.Empty;
         }
 
-        public string ToPrettyTson()
+        public string ToTson()
         {
             sb = new StringBuilder();
             Visit(rootNode);
@@ -35,9 +36,9 @@ namespace TsonLibrary
             indent = indent.Substring(0, Math.Max(indent.Length / indentChars.Length - 1, 0) * indentChars.Length);
         }
 
-        protected override TsonNode VisitRootObject(TsonRootObjectNode node)
+        protected override TsonNode VisitRootObject(TsonObjectNodeBase node)
         {
-            var e = node.KeyValues.GetEnumerator();
+            var e = node.GetEnumerator();
             bool addComma = false;
 
             while (e.MoveNext())
@@ -69,9 +70,9 @@ namespace TsonLibrary
             return node;
         }
 
-        protected override TsonNode VisitObject(TsonObjectNode node)
+        protected override TsonNode VisitObject(TsonObjectNodeBase node)
         {
-            var e = node.KeyValues.GetEnumerator();
+            var e = node.GetEnumerator();
             bool addComma = false;
 
             sb.Append(indent);
@@ -110,9 +111,9 @@ namespace TsonLibrary
             return node;
         }
 
-        protected override TsonNode VisitArray(TsonArrayNode node)
+        protected override TsonNode VisitArray(TsonArrayNodeBase node)
         {
-            var e = node.Values.GetEnumerator();
+            var e = ((IEnumerable)node).GetEnumerator();
             bool addComma = false;
 
             sb.Append(indent);
@@ -121,7 +122,7 @@ namespace TsonLibrary
 
             while (e.MoveNext())
             {
-                var v = e.Current;
+                var v = (TsonNode)e.Current;
 
                 if (addComma)
                     sb.AppendLine(",");

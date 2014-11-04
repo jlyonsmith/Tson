@@ -17,7 +17,7 @@ namespace TsonLibrary.Tests
             TsonNode node = new TsonParser().Parse(tsonText);
 
             Assert.IsInstanceOf<TsonNode>(node);
-            Assert.AreEqual(expectedText, new CompactNodeVisitor(node).ToString());
+            Assert.AreEqual(expectedText, new CompactNodeVisitor(node).ToTson());
         }
 
         [Test()]
@@ -48,7 +48,7 @@ namespace TsonLibrary.Tests
             TsonNode node = new TsonParser().Parse(tsonText);
 
             Assert.IsInstanceOf<TsonObjectNode>(node);
-            Assert.AreEqual(expectedText, new CompactNodeVisitor(node).ToString());
+            Assert.AreEqual(expectedText, new CompactNodeVisitor(node).ToTson());
         }
 
         [Test()]
@@ -63,7 +63,7 @@ namespace TsonLibrary.Tests
             TsonNode node = new TsonParser().Parse(tsonText);
 
             Assert.IsInstanceOf<TsonObjectNode>(node);
-            Assert.AreEqual(expectedText, new CompactNodeVisitor(node).ToString());
+            Assert.AreEqual(expectedText, new CompactNodeVisitor(node).ToTson());
         }
 
         [Test()]
@@ -77,7 +77,7 @@ b: 456
             TsonNode node = new TsonParser().Parse(tsonText);
 
             Assert.IsInstanceOf<TsonObjectNode>(node);
-            Assert.AreEqual(expectedText, new CompactNodeVisitor(node).ToString());
+            Assert.AreEqual(expectedText, new CompactNodeVisitor(node).ToTson());
         }
 
         [Test()]
@@ -103,7 +103,7 @@ b: 456
             TsonNode node = new TsonParser().Parse(tsonText);
 
             Assert.IsInstanceOf<TsonObjectNode>(node);
-            Assert.AreEqual(expectedText, new CompactNodeVisitor(node).ToString());
+            Assert.AreEqual(expectedText, new CompactNodeVisitor(node).ToTson());
         }
 
         [Test()]
@@ -128,7 +128,7 @@ o1: {} # object
             TsonNode node = new TsonParser().Parse(tsonText);
 
             Assert.IsInstanceOf<TsonObjectNode>(node);
-            Assert.AreEqual(expectedText, new CompactNodeVisitor(node).ToString());
+            Assert.AreEqual(expectedText, new CompactNodeVisitor(node).ToTson());
         }
     }
 }

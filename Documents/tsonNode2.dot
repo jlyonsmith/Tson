@@ -1,0 +1,41 @@
+# Generate with Graphviz using:
+#
+# dot -Tpdf -otsonNode2.pdf tsonNode2.dot
+#
+
+digraph tsonNodes {
+	node [fontname="HelveticaNeue", shape=box, width=2.8, height=1, fixedsize=true];
+	edge [fontname="Webdings"];
+	tsonNode [label="TsonNode",style="dashed",fillcolor=lightgray];
+	tsonValueNodeT [label="TsonValueNode<T>",style="dashed",fillcolor=lightgray];
+	tsonStringNode [label="TsonStringNode",penwidth=2];
+	tsonNumberNode [label="TsonNumberNode",penwidth=2];
+	tsonBooleanNode [label="TsonBooleanNode",penwidth=2];
+	tsonNullNode [label="TsonNullNode",penwidth=2];
+	tsonArrayNodeBase [label="TsonArrayNodeBase",style=dashed];
+	tsonArrayNode [label="TsonArrayNode",penwidth=2];
+	tsonArrayNodeT [label="TsonArrayNode<T>",penwidth=2];
+	tsonObjectNodeBase [label="TsonObjectNodeBase",style=dashed];
+	tsonObjectNode [label="TsonObjectNode",penwidth=2];
+	tsonTypedObjectNode [label="TsonTypedObjectNode",style=dashed];
+
+	subgraph {
+		tsonNode -> tsonValueNodeT;
+		tsonValueNodeT -> tsonStringNode;
+		tsonValueNodeT -> tsonBooleanNode;
+		tsonValueNodeT -> tsonNumberNode;
+		tsonValueNodeT -> tsonNullNode;
+	}
+
+	subgraph {
+		tsonNode -> tsonArrayNodeBase;
+		tsonArrayNodeBase -> tsonArrayNodeT;
+		tsonArrayNodeBase -> tsonArrayNode;
+	}
+
+	subgraph {
+		tsonNode -> tsonObjectNodeBase;
+		tsonObjectNodeBase -> tsonTypedObjectNode;
+		tsonObjectNodeBase -> tsonObjectNode;
+	}
+}

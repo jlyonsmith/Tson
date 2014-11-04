@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Globalization;
+using System.Collections;
 
 namespace TsonLibrary
 {
@@ -14,21 +15,21 @@ namespace TsonLibrary
             this.node = node;
         }
 
-        public override string ToString()
+        public string ToTson()
         {
             sb = new StringBuilder();
             Visit(node);
             return sb.ToString();
         }
 
-        protected override TsonNode VisitRootObject(TsonRootObjectNode node)
+        protected override TsonNode VisitRootObject(TsonObjectNodeBase node)
         {
             return VisitObject(node);
         }
 
-        protected override TsonNode VisitObject(TsonObjectNode node)
+        protected override TsonNode VisitObject(TsonObjectNodeBase node)
         {
-            var e = node.KeyValues.GetEnumerator();
+            var e = node.GetEnumerator();
             bool addComma = false;
 
             sb.Append("{");
@@ -52,9 +53,9 @@ namespace TsonLibrary
             return node;
         }
 
-        protected override TsonNode VisitArray(TsonArrayNode node)
+        protected override TsonNode VisitArray(TsonArrayNodeBase node)
         {
-            var e = node.Values.GetEnumerator();
+            var e = ((IEnumerable)node).GetEnumerator();
             bool addComma = false;
 
             sb.Append("[");
@@ -68,7 +69,7 @@ namespace TsonLibrary
                 else
                     addComma = true;
 
-                Visit(v);
+                Visit((TsonNode)v);
             }
 
             sb.Append("]");

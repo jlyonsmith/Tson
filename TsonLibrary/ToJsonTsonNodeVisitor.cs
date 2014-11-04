@@ -1,87 +1,95 @@
 ﻿using System;
 using System.Text;
 using System.Globalization;
+using System.Collections;
 
 namespace TsonLibrary
 {
-    public class JsvTsonNodeVisitor : TsonNodeVisitor
+    public class ToJsonTsonNodeVisitor : TsonNodeVisitor
     {
         private StringBuilder sb;
-        private TsonNode node;
+        private TsonNode rootNode;
 
-        public JsvTsonNodeVisitor(TsonNode node)
+        public ToJsonTsonNodeVisitor(TsonNode rootNode, string indentChars = "  ")
         {
-            this.node = node;
+            this.rootNode = rootNode;
         }
 
-        public string ToJsv()
+        public string ToJson()
         {
             sb = new StringBuilder();
-            Visit(node);
+            Visit(rootNode);
             return sb.ToString();
         }
 
-        protected override TsonNode VisitRootObject(TsonRootObjectNode node)
+        protected override TsonNode VisitRootObject(TsonObjectNodeBase node)
         {
             return VisitObject(node);
         }
 
-        protected override TsonNode VisitObject(TsonObjectNode node)
+        protected override TsonNode VisitObject(TsonObjectNodeBase node)
         {
-            var e = node.KeyValues.GetEnumerator();
+            var e = node.GetEnumerator();
             bool addComma = false;
 
-            sb.Append("{");
+            sb.Append("{ ");
 
             while (e.MoveNext())
             {
                 var kv = e.Current;
 
                 if (addComma)
-                    sb.Append(",");
+                    sb.Append(", ");
                 else
                     addComma = true;
 
                 Visit(kv.Key);
-                sb.Append(":");
+                sb.Append(": ");
                 Visit(kv.Value);
             }
 
-            sb.Append("}");
+            sb.Append(" }");
 
             return node;
         }
 
-        protected override TsonNode VisitArray(TsonArrayNode node)
+        protected override TsonNode VisitArray(TsonArrayNodeBase node)
         {
-            var e = node.Values.GetEnumerator();
+            var e = ((IEnumerable)node).GetEnumerator();
             bool addComma = false;
 
-            sb.Append("[");
+            sb.AppendLine("[ ");
 
             while (e.MoveNext())
             {
                 var v = e.Current;
 
                 if (addComma)
-                    sb.Append(",");
+                    sb.Append(", ");
                 else
                     addComma = true;
 
-                Visit(v);
+                Visit((TsonNode)v);
             }
 
-            sb.Append("]");
+            sb.Append(" ]");
 
             return node;
         }
 
         protected override TsonNode VisitString(TsonStringNode node)
         {
-            if (node.IsQuoted)
-                sb.AppendFormat("\"{0}\"", node.Value.ToString());
-            else
-                sb.Append(node.Value.ToString());
+            string s = node.Value.ToString()
+                .Replace("\"", "\\\"")
+                .Replace("\\", "\\\\")
+                .Replace("/", "\\/")
+                .Replace("\b", "\\b")
+                .Replace("\f", "\\f")
+                .Replace("\n", "\\n")
+                .Replace("\r", "\\r")
+                .Replace("\t", "\\t");
+
+            sb.AppendFormat("\"{0}\"", s);
 
             return node;
         }

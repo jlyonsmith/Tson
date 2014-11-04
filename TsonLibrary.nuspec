@@ -8,8 +8,8 @@
     <licenseUrl>http://github.com/jlyonsmith/Tson/blob/master/LICENSE.md</licenseUrl>
     <projectUrl>http://github.com/jlyonsmith/Tson</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>TSON: Typeable Simple Object Notation. JSON for humans.</description>
-    <releaseNotes>This is the first official NuGet release.</releaseNotes>
+    <description>TSON: Typeable Simple Object Notation. Fully compatible with JSON, but with relaxed syntax rules that make it much easier for humans to type, plus it supports commenting using #.</description>
+    <releaseNotes></releaseNotes>
     <copyright>Copyright (C) 2014 John Lyon-Smith</copyright>
     <tags>tson json jsv xml data storage mono windows osx linux</tags>
   </metadata>

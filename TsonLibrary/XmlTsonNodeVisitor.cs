@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Globalization;
+using System.Collections;
 
 namespace TsonLibrary
 {
@@ -21,9 +22,9 @@ namespace TsonLibrary
             return sb.ToString();
         }
 
-        protected override TsonNode VisitRootObject(TsonRootObjectNode node)
+        protected override TsonNode VisitRootObject(TsonObjectNodeBase node)
         {
-            var e = node.KeyValues.GetEnumerator();
+            var e = node.GetEnumerator();
 
             sb.Append("<root>");
 
@@ -41,9 +42,9 @@ namespace TsonLibrary
             return node;
         }
 
-        protected override TsonNode VisitObject(TsonObjectNode node)
+        protected override TsonNode VisitObject(TsonObjectNodeBase node)
         {
-            var e = node.KeyValues.GetEnumerator();
+            var e = node.GetEnumerator();
 
             sb.Append("<object>");
 
@@ -61,9 +62,9 @@ namespace TsonLibrary
             return node;
         }
 
-        protected override TsonNode VisitArray(TsonArrayNode node)
+        protected override TsonNode VisitArray(TsonArrayNodeBase node)
         {
-            var e = node.Values.GetEnumerator();
+            var e = ((IEnumerable)node).GetEnumerator();
 
             sb.Append("<array>");
 
@@ -72,7 +73,7 @@ namespace TsonLibrary
                 var v = e.Current;
 
                 sb.AppendFormat("<item>");
-                Visit(v);
+                Visit((TsonNode)v);
                 sb.AppendFormat("</item>");
             }
 

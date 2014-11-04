@@ -14,7 +14,7 @@ namespace TsonService
 
             try
             {
-                response.Tson = Tson.Format(request.Tson);
+                response.Tson = Tson.Format(request.Tson, TsonFormatStyle.Pretty);
             }
             catch (TsonParseException e)
             {

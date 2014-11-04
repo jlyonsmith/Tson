@@ -35,9 +35,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TsonSerializerTests.cs" />
     <Compile Include="TsonTokenizerTests.cs" />
     <Compile Include="TsonParserTests.cs" />
+    <Compile Include="TsonTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
