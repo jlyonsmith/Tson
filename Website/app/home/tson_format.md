@@ -2,17 +2,17 @@
 
 ### Overview
 
-The TSON (Typeable Simple Object Notation) is based on the [JSON](http://www.json.org/) and [JSV](http://mono.servicestack.net/mythz_blog/?p=176) data formats.  It is intended to be a _storage_ and not a _transmission_ format, and one that is editable by humans.  As such it includes the following primary differences which benefit humans vs. computers:
+TSON (Typeable Simple Object Notation) is derived from the [JSON](http://www.json.org/) and [JSV](http://mono.servicestack.net/mythz_blog/?p=176) data formats.  It is primarily intended to be a data storage format which is editable by humans.  As such, it includes the following primary differences which benefit humans vs. computers:
 
 - You can include comments in the data using the hash (#) symbol.
-- Double quotes (" ") are optional, and can be omitted for most simple alphanumeric strings.
+- Double quotes (" ") are optional, and can be omitted for most simple alphanumeric strings, except an empty string which is two double quotes together ("").
 - Strings can span multiple lines, whether quoted or not.
-- When quotes are _not_ used, newlines, tabs and spaces at the ends of the string are trimmed.
+- When quotes are _not_ used, newlines, tabs and spaces at the ends of the string are trimmed away.
 - When quotes _are_ used all spaces, newlines and tabs are part of the string. 
 - Quoted strings can use any of the JSON control sequences beginning with `\`.
 - TSON data always contains an _object_ at the root.  Therefore the curly brackets ({ }) are _optional_ for this object.
 
-TSON only supports 3 data types:
+TSON only validates 3 data types:
 
 - Strings (which can be quoted or unquoted)
 - Objects
@@ -25,9 +25,9 @@ Because TSON supports unquoted strings, a string can represent a number, boolean
 Let's start with an example. Here is simple TSON data file:
 
     # A simple TSON data file, convertible to JSON
-    name: TSON
-    description: A data storage format
-    url: "http://tsonspec.org"
+    name: TSON,
+    description: A data storage format,
+    url: "http://tsonspec.org",
     created: 2014-06-01
 
 Here is one that is a bit more complex that shows all of the main TSON features:
@@ -68,7 +68,7 @@ Here is one that is a bit more complex that shows all of the main TSON features:
     
 ### Syntax
 
-TSON syntax is extremely simple.  Data in both JSON and JSV formats can be represented in TSON, but TSON is superset in that it contains support for comments.
+TSON has a very simple syntax.  Data in both JSON and JSV formats are valid TSON, but TSON is superset in that it contains support for comments and unquoted strings.
 
 #### Unquoted String
 
@@ -94,7 +94,7 @@ A quoted string is defined as follows:
 
 ![QuotedString](images/QuotedString.png)
 
-Within a quoted string any text is valid except `\` and `"`.  A double quote (`"`) may be included by using the standard JSON control sequence `\"`.  See the diagram for the other allowed control sequences.  Newlines, carriage returns, tabs and forward slashes (`/`) can also be included in the string just by typing them, as your editor allows.  An empty string is represented by  `""`.
+Within a quoted string any text is valid except backslash (`\`) and double quote (`"`).  Double quotes may be included by using the standard JSON control sequence `\"`.  See the diagram for the other allowed control sequences.  Newlines, carriage returns, tabs and forward slashes (`/`) can also be included in the string just by typing them, as your editor allows.  An empty string is represented by  `""`.
 
 #### String
 
@@ -120,4 +120,4 @@ The exception is the root object, where the curly brackets are optional.
 
 #### C&#35;
 
-There is a reference implementation in C# along with this website, web service and additional sample and test code at [https://github.com/jlyonsmith/tson](https://github.com/jlyonsmith/tson).  It is also available on [NuGet](https://www.nuget.org/packages/TsonLibrary/) as TsonLibrary.
+There is a reference implementation of TSON in C# at [https://github.com/jlyonsmith/tson](https://github.com/jlyonsmith/tson).  It includes the code for this website, web service and additional sample and test code .  TsonLibrary also available on [NuGet](https://www.nuget.org/packages/TsonLibrary/).

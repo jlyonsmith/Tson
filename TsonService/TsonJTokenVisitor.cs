@@ -98,11 +98,13 @@ namespace TsonService
             {
                 string s = (string)jValue.Value;
                 bool needsQuotes = 
-                    (s.IndexOfAny(new char[] { '"', '\\', '/', '\b', '\f', '\n', '\r', '\t', '#', ':', ',', '[', ']', '{', '}' }) != -1);
+                    (s.Length == 0 ||
+                    s.IndexOfAny(new char[] { '"', '\\', '/', '\b', '\f', '\n', '\r', '\t', '#', ':', ',', '[', ']', '{', '}' }) != -1);
 
+                // NOTE: The order is important here; \\ should get replaced last
                 s = s
-                    .Replace("\"", "\\\"")
                     .Replace("\\", "\\\\")
+                    .Replace("\"", "\\\"")
                     .Replace("/", "\\/")
                     .Replace("\b", "\\b")
                     .Replace("\f", "\\f")

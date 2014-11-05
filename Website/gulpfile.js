@@ -1,19 +1,22 @@
-
 var gulp = require('gulp'),
   argv = require('yargs').argv,
   less = require('gulp-less')
   tinylr = require('tiny-lr'),
   express = require('express'),
   path = require('path'),
-  gulpBowerFiles = require('gulp-bower-files'),
-  clean = require('gulp-clean'),
+  mainBowerFiles = require('main-bower-files'),
+  rimraf = require('gulp-rimraf'),
   ngConstant = require('gulp-ng-constant'),
   rename = require('gulp-rename'),
-  markdown = require('gulp-markdown');
+  markdown = require('gulp-markdown'),
+  spawn = require('gulp-spawn');
 
-var portNum = 4000;
+var expPort = 4000;
+var lrPort = 35729;
 var appPath = 'app/';
+var docPath = 'doc/';
 var buildPath = 'build/';
+var bowerComponentsPath = 'bower_components/';
 
 var paths = {
   config: [argv.release ? 'config.release.json' : 'config.debug.json'],
@@ -33,7 +36,7 @@ for (var name in paths) {
 
 gulp.task('clean', function() {
   return gulp.src(buildPath, {read: false})
-    .pipe(clean());
+    .pipe(rimraf());
 });
 
 gulp.task('images', function() {
@@ -70,36 +73,48 @@ gulp.task('config', function() {
 });
 
 gulp.task('lib', function() {
-  return gulpBowerFiles({checkExistence: true})
-    .pipe(gulp.dest(path.join(buildPath, "lib")));
+  return gulp.src(mainBowerFiles({checkExistence: true}), { base: bowerComponentsPath })
+    .pipe(gulp.dest(path.join(buildPath, 'lib')));
 });
 
 gulp.task('markdown', function() {
   return gulp.src(paths.markdown)
     .pipe(markdown())
-    .pipe(gulp.dest(buildPath)); 
+    .pipe(gulp.dest(path.join(buildPath))); 
 })
 
-gulp.task('serve', function() {
+gulp.task('serve', ['default'], function() {
   startExpress();
   startLiveReload();
-  console.log('Running on port', portNum);
 });
 
 function startExpress() {
-  source = express()
-  source.use(require('connect-livereload')())
-  source.use(express.static(buildPath));
-  source.listen(portNum);
+  app = express()
+  app.use(require('connect-livereload')({
+    port: lrPort
+  }));
+  app.use(express.static(buildPath));
+  // NOTE: We could use connect-modrewrite here, but this seems sufficient
+  app.use(redirectToHashPath);
+  app.listen(expPort);
+  console.log('express listening on %s', expPort);
+}
+
+function redirectToHashPath(req, res) {
+  if (res.req.path.indexOf('/#') != 0) {
+    res.redirect("/#" + req.path);
+  }
 }
 
 function startLiveReload() {
   lr = tinylr();
-  lr.listen(35729);
-  gulp.watch(paths.html, ['html']);
-  gulp.watch(paths.script, ['script']);
+  lr.listen(lrPort, function() {
+    console.log('tiny-lr listening on %s', lrPort);
+  });
   gulp.watch(paths.images, ['images']);
   gulp.watch(paths.icons, ['icons']);
+  gulp.watch(paths.html, ['html']);
+  gulp.watch(paths.script, ['script']);
   gulp.watch(paths.less, ['less']);
   gulp.watch(paths.config, ['config']);
   gulp.watch(paths.markdown, ['markdown']);
@@ -117,5 +132,22 @@ function notifyLiveReload(event) {
     }
   });
 }
+
+gulp.task('watchdot', ['dot'], function() {
+  gulp.watch(path.join(docPath, "*.dot"), ['dot']);
+  console.log('Watching for ' + docPath + ' changes');
+});
+
+gulp.task('dot', function() {
+  return gulp.src(path.join(docPath, '*.dot'))
+    .pipe(spawn({
+      cmd: 'dot', 
+      args: ['-Tsvg'],
+      filename: function(base, ext) {
+        return base + '.svg'
+      }
+    }))
+    .pipe(gulp.dest(docPath))
+});
 
 gulp.task('default', ['images', 'icons', 'html', 'script', 'less', 'config', 'lib', 'markdown']);

@@ -22,7 +22,6 @@
     <None Include="app\config.debug.json" />
     <None Include="app\config.release.json" />
     <None Include="app\favicon.ico" />
-    <None Include="app\favicon.png" />
     <None Include="app\index.html" />
     <None Include="app\version.js" />
     <None Include="app\format\format.html" />
