@@ -86,7 +86,7 @@ To create a TSON serializable C# class you must derive the class from `TsonTyped
 
 Here is an example:
 
-```
+```csharp
 class Data : TsonTypedObjectNode
 {
     [TsonNotNull]
@@ -127,7 +127,7 @@ CustomDataList: [ { Thing1: a, Thing2: 1 }, { Thing1: b, Thing2: 2 } ]
 ```
 You could read and validate this data using just the code:
 
-```
+```csharp
 Tson.ToObjectNode<Data>(File.ReadAllText("data.tson"))
 ```
 If a `TsonFormatException` or `TsonParseException` is generated, it will indicate where in the file the error occurs.
