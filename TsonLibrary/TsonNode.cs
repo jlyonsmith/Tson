@@ -288,12 +288,12 @@ namespace TsonLibrary
             this.values.Add((TsonNode)node);
         }
 
-        public TsonNode this[int index]
+        public T this[int index]
         {
             get
             {
                 if (index < values.Count)
-                    return values[index];
+                    return (T)values[index];
 
                 do
                 {
@@ -301,7 +301,7 @@ namespace TsonLibrary
                 }
                 while (index >= values.Count);
 
-                return values[index];
+                return (T)values[index];
             }
             set
             {
@@ -337,8 +337,6 @@ namespace TsonLibrary
         {
             return this.GetEnumerator();
         }
-
-        // TODO: Override Equals() and GetHashCode()
     }
 
     public sealed class TsonObjectNode : TsonObjectNodeBase

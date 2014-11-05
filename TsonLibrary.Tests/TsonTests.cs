@@ -33,6 +33,11 @@ namespace TsonLibrary.Tests
             public TsonNumberNode Thing2 { get; set; }
         }
 
+        class BrokenData : TsonTypedObjectNode
+        {
+            public List<TsonObjectNode> WontWork { get; set; }
+        }
+
         [Test()]
         public void TestFormat()
         {
@@ -89,7 +94,12 @@ namespace TsonLibrary.Tests
                 "{NumNode:10,StringNode:abc,BoolNode:true,ObjectNode:{A:1.23,B:2},ArrayNode:[1,2],CustomData:{Thing1:xyz,Thing2:3.14}," +
                 "StringNodeList:[John,Jamey],NumberNodeList:[40,10],CustomDataList:[{Thing1:pi,Thing2:3.14},{Thing1:e,Thing2:2.72}]," +
                 "ObjectNodeList:[{X:11},{Y:Z}]}", tson);
+
+            // TODO: http://redmine.jamoki.com/issues/228: Ensure that indexers work
+            // TODO: http://redmine.jamoki.com/issues/229: Ensure that iterators work
         }
+
+        // TODO: http://redmine.jamoki.com/issues/227: Add a test for List<TsonNode> as a target; should not even be used as a target!
 
         [Test()]
         public void TestFullTypeMapping()
@@ -158,6 +168,14 @@ ArrayNode: [ 1, 2 ]
             var tson = @"";
 
             Assert.Throws<TsonFormatException>(() => Tson.ToObjectNode<Data>(tson));
+        }
+
+        [Test]
+        public void TestBadTargetType()
+        {
+            var tson = @"WontWork: [ {a:1}, {b:2} ]";
+
+            Tson.ToObjectNode<BrokenData>(tson);
         }
     }
 }

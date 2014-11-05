@@ -4,7 +4,7 @@ namespace TsonLibrary
 {
     public class TsonFormatException : Exception
     {
-        public TsonFormatException()
+        public TsonFormatException() : base()
         {
         }
 

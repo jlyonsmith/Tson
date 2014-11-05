@@ -4,16 +4,13 @@ using System.Collections.Generic;
 
 namespace TsonLibrary
 {
-    public class PropertyContext 
+    internal class PropertyContext 
     {
         public PropertyContext(object instance, PropertyInfo propInfo, int index = -1)
         {
             this.Instance = instance;
             this.PropertyInfo = propInfo;
             this.Index = index;
-
-            if (HasIndex && !typeof(TsonArrayNodeBase).IsAssignableFrom(PropertyType))
-                throw new ArgumentException("Index cannot be specified for non-array nodes");
         }
 
         public object Instance { get; private set; }

@@ -3,20 +3,6 @@ using System.Collections.Generic;
 
 namespace TsonLibrary
 {
-    public class TsonParseException : Exception
-    {
-        public TextLocation ErrorLocation { get { return (TextLocation)this.Data["Location"]; } }
-
-        public TsonParseException(TsonToken token) : this(token, "")
-        {
-        }
-
-        public TsonParseException(TsonToken token, string message) : base(message)
-        {
-            this.Data["Location"] = token.Location;
-        }
-    }
-
     public class TsonParser
     {
         private TsonCleanTokenizer tokenizer;
@@ -46,7 +32,7 @@ namespace TsonLibrary
         {
             TsonToken token = tokenizer.Next();
             bool hasLeftBrace = false;
-            var node = new TsonObjectNode();
+            var node = new TsonObjectNode() { Token = token };
 
             if (token.IsLeftCurlyBrace)
             {
@@ -58,14 +44,16 @@ namespace TsonLibrary
                     return node;
             }
             else if (token.IsEnd)
+            {
                 return node;
+            }
 
             while (true)
             {
                 if (!token.IsString)
                     throw new TsonParseException(token, "Expected a string");
 
-                TsonStringNode key = new TsonStringNode(token.Data as string);
+                TsonStringNode key = new TsonStringNode(token.Data as string) { Token = token };
 
                 token = tokenizer.Next();
 
@@ -111,9 +99,9 @@ namespace TsonLibrary
             if (!token.IsLeftCurlyBrace)
                 throw new TsonParseException(token, "Expected a '{'");
 
+            var node = new TsonObjectNode() { Token = token };
+         
             token = tokenizer.Next();
-
-            var node = new TsonObjectNode();
 
             if (token.IsRightCurlyBrace)
                 return node;
@@ -157,9 +145,9 @@ namespace TsonLibrary
             if (!token.IsLeftSquareBrace)
                 throw new TsonParseException(token, "Expected a '['");
 
-            token = tokenizer.PeekNext();
+            var node = new TsonArrayNode() { Token = token };
 
-            var node = new TsonArrayNode();
+            token = tokenizer.PeekNext();
 
             if (token.IsRightSquareBrace)
             {
@@ -206,25 +194,25 @@ namespace TsonLibrary
             if (!token.IsString)
                 throw new TsonParseException(token, "Expected a string");
            
-            TsonStringNode stringNode = new TsonStringNode((string)token.Data);
+            TsonStringNode stringNode = new TsonStringNode((string)token.Data) { Token = token };
 
             // See if we can more strongly type the node
             if (stringNode.IsQuoted)
                 return stringNode;
 
             if (stringNode.Value == "null")
-                return new TsonNullNode();
+                return new TsonNullNode() { Token = token };
 
             if (stringNode.Value == "true")
-                return new TsonBooleanNode(true);
+                return new TsonBooleanNode(true) { Token = token };
 
             if (stringNode.Value == "false")
-                return new TsonBooleanNode(false);
+                return new TsonBooleanNode(false) { Token = token };
 
             double n;
 
             if (Double.TryParse(stringNode.Value, out n))
-                return new TsonNumberNode(n);
+                return new TsonNumberNode(n) { Token = token };
 
             return stringNode;
         }

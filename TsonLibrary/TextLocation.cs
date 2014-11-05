@@ -27,5 +27,33 @@
         {
             return string.Format("[Offset: {0}, Line: {1}, Col: {2}]", Offset, Line, Column);
         }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is TextLocation))
+                return false;
+
+            return Equals((TextLocation)obj);
+        }
+
+        public bool Equals(TextLocation other)
+        {
+            return this.Offset == other.Offset && this.Line == other.Line && this.Column == other.Column;
+        }
+
+        public override int GetHashCode()
+        {
+            return Offset.GetHashCode() ^ Line.GetHashCode() ^ Column.GetHashCode();
+        }
+
+        public static bool operator==(TextLocation loc1, TextLocation loc2)
+        {
+            return loc1.Equals(loc2);
+        }
+
+        public static bool operator!=(TextLocation loc1, TextLocation loc2)
+        {
+            return !loc1.Equals(loc2);
+        }
     }
 }

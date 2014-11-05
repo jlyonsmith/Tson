@@ -3,6 +3,7 @@ using System;
 using TsonLibrary;
 using System.Text;
 using System.Globalization;
+using System.Diagnostics;
 
 namespace TsonLibrary.Tests
 {
@@ -16,8 +17,10 @@ namespace TsonLibrary.Tests
             string expectedText = "{}";
             TsonNode node = new TsonParser().Parse(tsonText);
 
-            Assert.IsInstanceOf<TsonNode>(node);
+            Assert.IsInstanceOf<TsonObjectNode>(node);
             Assert.AreEqual(expectedText, new CompactNodeVisitor(node).ToTson());
+            Assert.NotNull(node.Token);
+            Assert.AreEqual(0, node.Token.Location.Offset);
         }
 
         [Test()]
@@ -49,6 +52,8 @@ namespace TsonLibrary.Tests
 
             Assert.IsInstanceOf<TsonObjectNode>(node);
             Assert.AreEqual(expectedText, new CompactNodeVisitor(node).ToTson());
+            Assert.NotNull(node.Token);
+            Assert.AreEqual(1, node.Token.Location.Offset);
         }
 
         [Test()]
@@ -64,6 +69,8 @@ namespace TsonLibrary.Tests
 
             Assert.IsInstanceOf<TsonObjectNode>(node);
             Assert.AreEqual(expectedText, new CompactNodeVisitor(node).ToTson());
+            Assert.NotNull(node.Token);
+            Assert.AreEqual(12, node.Token.Location.Offset);
         }
 
         [Test()]
@@ -78,6 +85,8 @@ b: 456
 
             Assert.IsInstanceOf<TsonObjectNode>(node);
             Assert.AreEqual(expectedText, new CompactNodeVisitor(node).ToTson());
+            Assert.NotNull(node.Token);
+            Assert.AreEqual(1, node.Token.Location.Offset);
         }
 
         [Test()]
@@ -104,6 +113,9 @@ b: 456
 
             Assert.IsInstanceOf<TsonObjectNode>(node);
             Assert.AreEqual(expectedText, new CompactNodeVisitor(node).ToTson());
+
+            Assert.NotNull(node.Token);
+            Assert.AreEqual(1, node.Token.Location.Offset);
         }
 
         [Test()]
@@ -129,6 +141,31 @@ o1: {} # object
 
             Assert.IsInstanceOf<TsonObjectNode>(node);
             Assert.AreEqual(expectedText, new CompactNodeVisitor(node).ToTson());
+
+            new CallbackTsonNodeVisitor((n) => 
+            {
+                Assert.NotNull(n.Token);
+                Assert.Greater(n.Token.Location.Offset, 0);
+                Assert.Greater(n.Token.Location.Line, 0);
+                Assert.Greater(n.Token.Location.Column, 0);
+            }).VisitAll(node);
+        }
+
+        // NOTE: Use for creating the token/offset arrays
+        private string GetTokenOffsetInfo(TsonNode node)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            new CallbackTsonNodeVisitor((n) => 
+            {
+                if (sb.Length > 0)
+                    sb.Append(", ");
+
+                sb.AppendFormat("{{ TsonNodeType.{0}, {1} }}", 
+                    n.NodeType.ToString(), n.Token.Location.Offset.ToString()); 
+            }).VisitAll(node);
+
+            return sb.ToString();
         }
     }
 }

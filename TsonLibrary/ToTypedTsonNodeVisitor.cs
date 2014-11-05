@@ -140,6 +140,9 @@ namespace TsonLibrary
 
             foreach (var subNode in node)
             {
+                if (!typeof(TsonArrayNodeBase).IsAssignableFrom(savedOwner.PropertyType))
+                    continue;
+
                 owner = new PropertyContext(savedOwner.Instance, savedOwner.PropertyInfo, i);
 
                 Visit((TsonNode)subNode);
