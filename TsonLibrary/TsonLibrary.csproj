@@ -47,10 +47,10 @@
     <Compile Include="ToJsvTsonNodeVisitor.cs" />
     <Compile Include="ToPrettyTsonNodeVisitor.cs" />
     <Compile Include="ToTypedTsonNodeVisitor.cs" />
-    <Compile Include="PropertyContext.cs" />
     <Compile Include="TsonFormatException.cs" />
     <Compile Include="CallbackTsonNodeVisitor.cs" />
     <Compile Include="TsonParseException.cs" />
+    <Compile Include="NodePropertyInstance.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

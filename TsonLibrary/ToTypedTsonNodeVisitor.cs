@@ -8,7 +8,7 @@ namespace TsonLibrary
     public class ToTypedTsonNodeVisitor<T> : TsonNodeVisitor where T : TsonTypedObjectNode
     {
         TsonObjectNode rootNode;
-        PropertyContext owner;
+        NodePropertyInstance targetNodeProperty;
 
         protected T TargetObject { get; set; }
 
@@ -21,22 +21,22 @@ namespace TsonLibrary
         {
             var propInfo = this.GetType().GetProperty("TargetObject", BindingFlags.NonPublic | BindingFlags.Instance);
 
-            this.owner = new PropertyContext(this, propInfo);
+            this.targetNodeProperty = new NodePropertyInstance(this, propInfo);
 
             Visit(rootNode);
 
             return TargetObject;
         }
 
-        private void UpdateOwnerObject(TsonNode node)
+        private void UpdateTargetNodeProperty(TsonNode node)
         {
-            if (owner.HasIndex)
+            if (targetNodeProperty.HasIndex)
             {
-                owner.SetItemValue(node);
+                targetNodeProperty.SetItemValue(node);
             }
             else
             {
-                owner.SetPropertyValue(node);
+                targetNodeProperty.SetPropertyValue(node);
             }
         }
 
@@ -47,131 +47,140 @@ namespace TsonLibrary
 
         protected override TsonNode VisitObject(TsonObjectNodeBase node)
         {
-            if (!(node is TsonObjectNode))
-                throw new NotSupportedException();
-
-            object obj = null;
+            TsonNode newNode = null;
             Type type = null;
 
-            if (owner.HasIndex)
+            if (targetNodeProperty.HasIndex)
             {
-                if (owner.ItemType == typeof(TsonObjectNode))
+                if (targetNodeProperty.ItemType == typeof(TsonObjectNode))
                 {
-                    owner.SetItemValue(node);
+                    targetNodeProperty.SetItemValue(node);
                     return node;
                 }
                 else
                 {
-                    type = owner.ItemType;
-                    obj = Activator.CreateInstance(type);
-                    owner.SetItemValue(obj);
+                    type = targetNodeProperty.ItemType;
+                    newNode = (TsonNode)Activator.CreateInstance(type);
+                    newNode.Token = node.Token;
+                    targetNodeProperty.SetItemValue(newNode);
                 }
             }
             else
             {
-                if (owner.PropertyType == typeof(TsonObjectNode))
+                if (targetNodeProperty.PropertyType == typeof(TsonObjectNode))
                 {
-                    owner.SetPropertyValue(node);
+                    targetNodeProperty.SetPropertyValue(node);
                     return node;
                 }
                 else
                 {
-                    type = owner.PropertyType;
-                    obj = Activator.CreateInstance(type);
-                    owner.SetPropertyValue(obj);
+                    type = targetNodeProperty.PropertyType;
+                    newNode = (TsonNode)Activator.CreateInstance(type);
+                    newNode.Token = node.Token;
+                    targetNodeProperty.SetPropertyValue(newNode);
                 }
             }
 
-            var savedOwner = owner;
+            var lastTargetNodeProperty = targetNodeProperty;
 
             foreach (var childNode in node)
             {
                 var propInfo = type.GetProperty(childNode.Key.Value);
 
-                if (propInfo == null)
+                if (propInfo == null || !typeof(TsonNode).IsAssignableFrom(propInfo.PropertyType))
                     continue;
 
-                owner = new PropertyContext(obj, propInfo);
+                targetNodeProperty = new NodePropertyInstance(newNode, propInfo);
 
                 Visit(childNode.Value);
             }
 
-            owner = savedOwner;
+            targetNodeProperty = lastTargetNodeProperty;
 
-            if (((TsonTypedObjectNode)obj).HasInvalidNulls())
-                throw new TsonFormatException();
+            var typedNode = newNode as TsonTypedObjectNode;
+
+            if (typedNode != null)
+            {
+                var propInfo = typedNode.FirstInvalidNull();
+
+                if (propInfo != null)
+                    throw new TsonFormatException(node.Token, String.Format("Property '{0}' should not be null", propInfo.Name));
+            }
 
             return node;
         }
 
         protected override TsonNode VisitArray(TsonArrayNodeBase node)
         {
-            if (!(node is TsonArrayNode))
-                throw new NotSupportedException();
-
-            if (owner.HasIndex)
+            if (targetNodeProperty.HasIndex)
             {
-                if (owner.ItemType == typeof(TsonArrayNode))
+                if (targetNodeProperty.ItemType == typeof(TsonArrayNode))
                 {
-                    owner.SetItemValue(node);
+                    targetNodeProperty.SetItemValue(node);
                     return node;
                 }
                 else
                 {
-                    owner.SetItemValue(Activator.CreateInstance(owner.ItemType));
+                    var newNode = (TsonArrayNodeBase)Activator.CreateInstance(targetNodeProperty.ItemType);
+
+                    newNode.Token = node.Token;
+                    targetNodeProperty.SetItemValue(newNode);
                 }
             }
             else
             {
-                if (owner.PropertyType == typeof(TsonArrayNode))
+                if (targetNodeProperty.PropertyType == typeof(TsonArrayNode))
                 {
-                    owner.SetPropertyValue(node);
+                    targetNodeProperty.SetPropertyValue(node);
                     return node;
                 }
                 else
                 {
-                    owner.SetPropertyValue(Activator.CreateInstance(owner.PropertyType));
+                    var newNode = (TsonArrayNodeBase)Activator.CreateInstance(targetNodeProperty.PropertyType);
+
+                    newNode.Token = node.Token;
+                    targetNodeProperty.SetPropertyValue(newNode);
                 }
             }
 
-            var savedOwner = owner;
+            var lastTargetNodeProperty = targetNodeProperty;
 
             int i = 0;
 
             foreach (var subNode in node)
             {
-                if (!typeof(TsonArrayNodeBase).IsAssignableFrom(savedOwner.PropertyType))
+                if (!typeof(TsonArrayNodeBase).IsAssignableFrom(lastTargetNodeProperty.PropertyType))
                     continue;
 
-                owner = new PropertyContext(savedOwner.Instance, savedOwner.PropertyInfo, i);
+                targetNodeProperty = new NodePropertyInstance(lastTargetNodeProperty.Instance, lastTargetNodeProperty.PropertyInfo, i);
 
                 Visit((TsonNode)subNode);
 
                 i++;
             }
 
-            owner = savedOwner;
+            targetNodeProperty = lastTargetNodeProperty;
 
             return node;
         }
 
         protected override TsonNode VisitNumber(TsonNumberNode node)
         {
-            UpdateOwnerObject(node);
+            UpdateTargetNodeProperty(node);
 
             return node;
         }
 
         protected override TsonNode VisitString(TsonStringNode node)
         {
-            UpdateOwnerObject(node);
+            UpdateTargetNodeProperty(node);
 
             return node;
         }
 
         protected override TsonNode VisitBoolean(TsonBooleanNode node)
         {
-            UpdateOwnerObject(node);
+            UpdateTargetNodeProperty(node);
 
             return node;
         }

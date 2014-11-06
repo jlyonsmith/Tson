@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace TsonLibrary
 {
-    internal class PropertyContext 
+    internal class NodePropertyInstance 
     {
-        public PropertyContext(object instance, PropertyInfo propInfo, int index = -1)
+        public NodePropertyInstance(object instance, PropertyInfo propInfo, int index = -1)
         {
             this.Instance = instance;
             this.PropertyInfo = propInfo;

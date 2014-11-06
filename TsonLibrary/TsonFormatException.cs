@@ -4,16 +4,15 @@ namespace TsonLibrary
 {
     public class TsonFormatException : Exception
     {
-        public TsonFormatException() : base()
+        public TextLocation ErrorLocation { get { return (TextLocation)this.Data["Location"]; } }
+
+        public TsonFormatException(TsonToken token) : this(token, "")
         {
         }
 
-        public TsonFormatException(string message) : base(message)
+        public TsonFormatException(TsonToken token, string message) : base(message)
         {
-        }
-
-        public TsonFormatException(string message, Exception innerException) : base(message, innerException)
-        {
+            this.Data["Location"] = token.Location;
         }
     }
 }

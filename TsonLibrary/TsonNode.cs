@@ -412,17 +412,17 @@ namespace TsonLibrary
             }
         }
 
-        public bool HasInvalidNulls()
+        public PropertyInfo FirstInvalidNull()
         {
             foreach (var propInfo in propInfos)
             {
                 var attr = propInfo.GetCustomAttribute<TsonNotNullAttribute>();
 
                 if (attr != null && propInfo.GetValue(this) == null)
-                    return true;
+                    return propInfo;
             }
 
-            return false;
+            return null;
         }
     }
 }
