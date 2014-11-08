@@ -34,11 +34,19 @@ namespace TsonLibrary
 
             return propInfo.GetValue(obj, new object[] { (object)this.Index });
         }
-        public void SetPropertyValue(object obj)
+        public void SetPropertyValue(TsonNode node)
         {
-            this.PropertyInfo.SetValue(Instance, obj);
+            try
+            {
+                this.PropertyInfo.SetValue(Instance, node);
+            }
+            catch (Exception e)
+            {
+                throw new TsonFormatException(node.Token, 
+                    String.Format("Cannot set non-array property {0}", PropertyInfo.Name), e);
+            }
         }
-        public void SetItemValue(object obj)
+        public void SetItemValue(TsonNode node)
         {
             // NOTE: This assumes an indexer that can accept an arbitrary index and still work 
             // Not List<> for example.
@@ -47,7 +55,15 @@ namespace TsonLibrary
             if (itemPropInfo == null)
                 return;
 
-            itemPropInfo.SetValue(this.GetPropertyValue(), obj, new object[] { (object)this.Index });
+            try
+            {
+                itemPropInfo.SetValue(this.GetPropertyValue(), node, new object[] { (object)this.Index });
+            }
+            catch (Exception e)
+            {
+                throw new TsonFormatException(node.Token, 
+                    String.Format("Cannot set array property", PropertyInfo.Name), e);
+            }
         }
     }
 }

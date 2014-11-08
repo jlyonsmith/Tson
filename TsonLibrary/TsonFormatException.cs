@@ -10,7 +10,11 @@ namespace TsonLibrary
         {
         }
 
-        public TsonFormatException(TsonToken token, string message) : base(message)
+        public TsonFormatException(TsonToken token, string message) : this(token, message, null)
+        {
+        }
+
+        public TsonFormatException(TsonToken token, string message, Exception innerException) : base(message, innerException)
         {
             this.Data["Location"] = token.Location;
         }
