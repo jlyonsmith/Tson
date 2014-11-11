@@ -12,8 +12,8 @@
     <File>TsonLibrary.nuspec</File>
   </Files>
   <Major>1</Major>
-  <Minor>0</Minor>
-  <Build>11111</Build>
+  <Minor>1</Minor>
+  <Build>0</Build>
   <Revision>0</Revision>
   <StartYear>2014</StartYear>
 </Version>
