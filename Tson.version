@@ -7,8 +7,8 @@
     <File>Tson2Jsv/Properties/AssemblyInfo.cs</File>
     <File>Scratch/Tson.version.txt</File>
     <File>Website/app/version.js</File>
-    <File>TsonService/Scripts/tson-v${Major}-${Minor}.conf</File>
-    <File>TsonService/Scripts/tson-v${Major}-${Minor}.sh</File>
+    <File>TsonService/Scripts/tson-v${Major}-0.conf</File>
+    <File>TsonService/Scripts/tson-v${Major}-0.sh</File>
     <File>TsonLibrary.nuspec</File>
   </Files>
   <Major>1</Major>
