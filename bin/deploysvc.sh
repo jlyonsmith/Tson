@@ -43,7 +43,7 @@ if [[ ! -d $SCRATCHDIR ]]; then mkdir $SCRATCHDIR; fi
 # Read in version
 SVCVERSION=v$(expr $(cat ${SLNDIR}/Scratch/$APPNAME.version.txt) : '\([0-9]*\)\.[0-9]*')
 SVCVERSION=${SVCVERSION/\./-}
-SVCLIBDIR=$(expr $(cat ${SLNDIR}/Scratch/$APPNAME.version.txt) : '\([0-9]*\.[0-9]*\)')
+SVCLIBDIR=v$(expr $(cat ${SLNDIR}/Scratch/$APPNAME.version.txt) : '\([0-9]*\.[0-9]*\)')
 SVCLIBDIR=lib/${APPNAME}.${SVCNAME}.${SVCLIBDIR}
 
 # Delete the BUILDCONFIG build directories
