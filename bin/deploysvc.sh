@@ -41,16 +41,16 @@ fi
 if [[ ! -d $SCRATCHDIR ]]; then mkdir $SCRATCHDIR; fi
 
 # Read in version
-VERSION=$(cat ${SLNDIR}/Scratch/$APPNAME.version.txt)
-VERSION=v$(expr $VERSION : '\([0-9]*\.[0-9]*\)')
-DASH_VERSION=${VERSION/\./-}
-SVCLIBDIR=lib/${APPNAME}.${SVCNAME}.${VERSION}
+SVCVERSION=v$(expr $(cat ${SLNDIR}/Scratch/$APPNAME.version.txt) : '\([0-9]*\)\.[0-9]*')
+SVCVERSION=${SVCVERSION/\./-}
+SVCLIBDIR=$(expr $(cat ${SLNDIR}/Scratch/$APPNAME.version.txt) : '\([0-9]*\.[0-9]*\)')
+SVCLIBDIR=lib/${APPNAME}.${SVCNAME}.${SVCLIBDIR}
 
 # Delete the BUILDCONFIG build directories
 rm -rf $SLNDIR/${APPNAME}Service/bin/${BUILDCONFIG}
 
 # Do a release build, and stop if it fails
-bash -c "cd $SLNDIR; xbuild /property:Configuration=${BUILDCONFIG} /property:Platform='x86' ${APPNAME}.sln"
+bash -c "cd $SLNDIR; xbuild /property:Configuration=${BUILDCONFIG} ${APPNAME}.sln"
 if [[ $? -ne 0 ]]; then exit 1; fi
 
 # TODO: Enable when/if there are unit tests
@@ -62,7 +62,7 @@ if [[ $? -ne 0 ]]; then exit 1; fi
 
 # Stop the remote services
 echo Stopping remote service...
-ssh $SSHCONFIG "sudo service ${LAPPNAME}-${LSVCNAME}-${DASH_VERSION} stop"
+ssh $SSHCONFIG "sudo service ${LAPPNAME}-${LSVCNAME}-${SVCVERSION} stop"
 
 # Create remote bin & lib directories
 ssh $SSHCONFIG "if [[ ! -d bin ]]; then mkdir -p bin; fi"
@@ -79,5 +79,5 @@ if [[ $? -ne 0 ]]; then exit 1; fi
 ssh $SSHCONFIG "find ~/${SVCLIBDIR}/Scripts -name \*.sh | while read -r FILENAME; do ln -sf \$FILENAME ~/bin/\$(basename \$FILENAME); done"
 
 # Start the service
-ssh $SSHCONFIG "sudo service ${LAPPNAME}-${LSVCNAME}-${DASH_VERSION} start"
+ssh $SSHCONFIG "sudo service ${LAPPNAME}-${LSVCNAME}-${SVCVERSION} start"
 
