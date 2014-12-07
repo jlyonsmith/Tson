@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Version>
   <Files>
-    <File>TsonService/Properties/AssemblyInfo.cs</File>
+    <File>Api/ApiService/Properties/AssemblyInfo.cs</File>
     <File>TsonLibrary/Properties/AssemblyInfo.cs</File>
     <File>PrettyTson/Properties/AssemblyInfo.cs</File>
     <File>Tson2Jsv/Properties/AssemblyInfo.cs</File>
     <File>Scratch/Tson.version.txt</File>
     <File>Website/app/version.js</File>
-    <File>TsonService/Scripts/tson-v${Major}-0.conf</File>
-    <File>TsonService/Scripts/tson-v${Major}-0.sh</File>
+    <File>Api/ApiService/Scripts/tson-api-v${Major}.conf</File>
+    <File>Api/ApiService/Scripts/tson-api-v${Major}.sh</File>
     <File>TsonLibrary.nuspec</File>
   </Files>
   <Major>1</Major>

@@ -13,11 +13,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TsonLibrary.Tests", "TsonLi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tson2Jsv", "Tson2Jsv\Tson2Jsv.csproj", "{24E122F7-BA71-4B41-B221-F259ED16E90B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TsonService", "TsonService\TsonService.csproj", "{530CF659-8410-4238-86FB-1B5045F7BF41}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrettyTson", "PrettyTson\PrettyTson.csproj", "{D9197E81-F9F3-4593-92D4-98DEE6C6ED27}"
 EndProject
 Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "tsonspec.org", "Website\tsonspec.org.mdproj", "{3359E79D-0CCE-4A75-A3EF-ABED3756A6BF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{A301E4FA-1FA1-4ADE-A405-A4746F8D5D1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiService", "Api\ApiService\ApiService.csproj", "{530CF659-8410-4238-86FB-1B5045F7BF41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,9 +63,10 @@ Global
 		{D9197E81-F9F3-4593-92D4-98DEE6C6ED27}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{530CF659-8410-4238-86FB-1B5045F7BF41} = {A301E4FA-1FA1-4ADE-A405-A4746F8D5D1E}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = TsonService\TsonService.csproj
+		StartupItem = TsonLibrary\TsonLibrary.csproj
 		version = 1.0
 	EndGlobalSection
 EndGlobal

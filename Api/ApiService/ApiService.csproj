@@ -80,10 +80,11 @@
     <None Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Scripts\tson-v1-0.sh">
+    <None Include="app.v1-0-release.config" />
+    <None Include="Scripts\tson-api-v1.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Scripts\tson-v1-0.conf">
+    <None Include="Scripts\tson-api-v1.sh">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -93,7 +94,7 @@
     <Folder Include="Scripts\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TsonLibrary\TsonLibrary.csproj">
+    <ProjectReference Include="..\..\TsonLibrary\TsonLibrary.csproj">
       <Project>{B237FD67-AFAF-46EE-81C4-4FC677CF89AA}</Project>
       <Name>TsonLibrary</Name>
     </ProjectReference>
