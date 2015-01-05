@@ -14,7 +14,6 @@
     <None Include="bower.json" />
     <None Include="gulpfile.js" />
     <None Include="package.json" />
-    <None Include="tsonspec.org.mdproj" />
     <None Include="app\404.html" />
     <None Include="app\app-controller.js" />
     <None Include="app\app.js" />
