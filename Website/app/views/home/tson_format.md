@@ -2,7 +2,7 @@
 
 ### Overview
 
-TSON (Typeable Simple Object Notation) is derived from the [JSON](http://www.json.org/) and [JSV](http://mono.servicestack.net/mythz_blog/?p=176) data formats.  It is primarily intended to be a data storage format which is editable by humans.  As such, it includes the following primary differences which benefit humans vs. computers:
+TSON (Typeable Simple Object Notation) is derived from the [JSON](http://www.json.org/) and [JSV](http://mono.servicestack.net/mythz_blog/?p=176) data formats.  It is primarily intended to be a data storage format which is editable by humans, the word _typeable_ implying that it is easier to manually edit.  To support this, it includes the following primary differences to both JSON and JSV formats:
 
 - You can include comments in the data using the hash (#) symbol.
 - Double quotes (" ") are optional, and can be omitted for most simple alphanumeric strings, except an empty string which is two double quotes together ("").
@@ -18,7 +18,9 @@ TSON only validates 3 data types:
 - Objects
 - Arrays
 
-Because TSON supports unquoted strings, a string can represent a number, boolean and null as defined by JSON.  If you stick to these data types you can easily convert TSON to JSON.  If you don't need JSON compatability, you can define other custom data types of your choosing.  Comments are not generally considered to be part of the data, but they are easy to parse out treat as such if you wish.
+Because TSON supports unquoted strings, a string can _syntactically_ represent JSON numbers, boolean and null's.  If you stick to these data types you can easily convert TSON to JSON.  If you don't need JSON compatability, you can define other custom data types of your choosing.  
+
+Comments are not generally considered to be part of the data, but they are easy to parse out and treat as such if you wish.
 
 ### Example
 
