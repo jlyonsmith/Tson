@@ -1,4 +1,4 @@
-app.controller('validateController', function($scope, $location, $analytics, tsonService) {
+angular.module('tsonApp').controller('ValidateController', function($scope, $location, $analytics, tsonService) {
 	$analytics.pageTrack($location.path());
 	$scope.result = null;
 

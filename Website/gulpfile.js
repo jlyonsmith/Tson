@@ -1,3 +1,5 @@
+// NOTE: Use --production for a production build
+
 var gulp = require('gulp'),
   argv = require('yargs').argv,
   less = require('gulp-less')
@@ -5,11 +7,19 @@ var gulp = require('gulp'),
   express = require('express'),
   path = require('path'),
   mainBowerFiles = require('main-bower-files'),
-  rimraf = require('gulp-rimraf'),
+  del = require('del'),
   ngConstant = require('gulp-ng-constant'),
   rename = require('gulp-rename'),
   markdown = require('gulp-markdown'),
-  spawn = require('gulp-spawn');
+  spawn = require('gulp-spawn'),
+  debug = require('gulp-debug'),
+  concat = require('gulp-concat'),
+  sourceMaps = require('gulp-sourcemaps'),
+  uglify = require('gulp-uglify'),
+  ngAnnotate = require('gulp-ng-annotate'),
+  gulpIf = require('gulp-if'),
+  preprocess = require('gulp-preprocess'),
+  merge = require('gulp-merge');
 
 var expPort = 4000;
 var lrPort = 35729;
@@ -18,25 +28,29 @@ var docPath = 'doc/';
 var buildPath = 'build/';
 var bowerComponentsPath = 'bower_components/';
 
+// NOTE: Paths have the appPath prepended below!
 var paths = {
-  config: [argv.release ? 'config.release.json' : 'config.debug.json'],
-  html: ['**/*.html', '!tson_format.html'],
+  config: [argv.config === "release" ? 'config.release.json' : 'config.debug.json'],
+  html: ['**/*.html'],
   icons: ['*.ico'],
   script: ['**/*.js'],
   images: ['**/*.png'],
+  cursors: ['**/*.cur'],
   less: ['**/*.less'],
   markdown: ['**/*.md']
 };
 
 for (var name in paths) {
   paths[name] = paths[name].map(function(value) {
+    if (value[0] === '!')
+        return '!' + path.join(appPath, value.substring(1));
+    else
     return path.join(appPath, value);
   });
 }
 
 gulp.task('clean', function() {
-  return gulp.src(buildPath, {read: false})
-    .pipe(rimraf());
+  del(buildPath);
 });
 
 gulp.task('images', function() {
@@ -44,41 +58,52 @@ gulp.task('images', function() {
     .pipe(gulp.dest(buildPath));
 });
 
+gulp.task('cursors', function() {
+  return gulp.src(paths.cursors, { base: appPath })
+    .pipe(gulp.dest(buildPath));
+});
+
 gulp.task('icons', function() {
-  return gulp.src(paths.icons)
+  return gulp.src(paths.icons, { base: appPath })
     .pipe(gulp.dest(buildPath));
 });
 
 gulp.task('script', function() {
-  return gulp.src(paths.script, { base: appPath })
+  return merge(
+      gulp.src(paths.config, { base: appPath })
+        .pipe(ngConstant())
+        .pipe(rename({basename: 'config'})),
+      gulp.src(paths.script, { base: appPath }))
+    .pipe(sourceMaps.init())
+    .pipe(ngAnnotate())
+    .pipe(concat('app.js'))
+    .pipe(gulpIf(argv.minify, uglify()))
+    .pipe(sourceMaps.write())
     .pipe(gulp.dest(buildPath));
 });
 
 gulp.task('html', function() {
   return gulp.src(paths.html, { base: appPath })
+    .pipe(preprocess({context: { MINIFY: argv.minify }}))
     .pipe(gulp.dest(buildPath));
 });
 
 gulp.task('less', function() {
   return gulp.src(paths.less, { base: appPath })
-    .pipe(less())
-    .pipe(gulp.dest(buildPath));
-});
-
-gulp.task('config', function() {
-  return gulp.src(paths.config, { base: appPath })
-    .pipe(ngConstant())
-    .pipe(rename({basename: 'config'}))
+    .pipe(concat('app.css'))
+    .pipe(less({ paths: [ bowerComponentsPath ]}))
     .pipe(gulp.dest(buildPath));
 });
 
 gulp.task('lib', function() {
-  return gulp.src(mainBowerFiles({checkExistence: true}), { base: bowerComponentsPath })
+  return gulp.src(
+      mainBowerFiles({ checkExistence: true, env: argv.minify ? "minified" : "normal" }), 
+      { base: bowerComponentsPath })
     .pipe(gulp.dest(path.join(buildPath, 'lib')));
 });
 
 gulp.task('markdown', function() {
-  return gulp.src(paths.markdown)
+  return gulp.src(paths.markdown, { base: appPath })
     .pipe(markdown())
     .pipe(gulp.dest(path.join(buildPath))); 
 })
@@ -89,14 +114,15 @@ gulp.task('serve', ['default'], function() {
 });
 
 function startExpress() {
-  app = express()
-  app.use(require('connect-livereload')({
+  var expressApp = express();
+
+  expressApp.use(require('connect-livereload')({
     port: lrPort
   }));
-  app.use(express.static(buildPath));
+  expressApp.use(express.static(buildPath));
   // NOTE: We could use connect-modrewrite here, but this seems sufficient
-  app.use(redirectToHashPath);
-  app.listen(expPort);
+  expressApp.use(redirectToHashPath);
+  expressApp.listen(expPort);
   console.log('express listening on %s', expPort);
 }
 
@@ -112,11 +138,13 @@ function startLiveReload() {
     console.log('tiny-lr listening on %s', lrPort);
   });
   gulp.watch(paths.images, ['images']);
+  gulp.watch(paths.images, ['cursors']);
   gulp.watch(paths.icons, ['icons']);
   gulp.watch(paths.html, ['html']);
   gulp.watch(paths.script, ['script']);
   gulp.watch(paths.less, ['less']);
   gulp.watch(paths.config, ['config']);
+  gulp.watch(paths.markdown, ['lib']);
   gulp.watch(paths.markdown, ['markdown']);
   gulp.watch([path.join(buildPath, '*'), path.join(buildPath, '**/*')], notifyLiveReload);
 }
@@ -150,4 +178,4 @@ gulp.task('dot', function() {
     .pipe(gulp.dest(docPath))
 });
 
-gulp.task('default', ['images', 'icons', 'html', 'script', 'less', 'config', 'lib', 'markdown']);
+gulp.task('default', ['images', 'cursors', 'icons', 'html', 'script', 'less', 'lib', 'markdown']);

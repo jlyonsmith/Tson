@@ -1,4 +1,4 @@
-angular.module('tsonApp.services', ['tsonApp.config']) 
+angular.module('tsonApp.services') 
 	.factory('tsonService', function($http, tsonApiUrl) {
 		return {
 			validate: function(text) {

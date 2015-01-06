@@ -1,10 +1,10 @@
-app.controller('json2TsonController', function($scope, $location, $analytics, tsonService) {
+angular.module('tsonApp').controller('Tson2XmlController', function($scope, $location, $analytics, tsonService) {
 	$analytics.pageTrack($location.path());
 	$scope.result = null;
 
 	$scope.submitForm = function() {
-		tsonService.json2tson($scope.json)
-			.success(function(data, status, headers) {
+		tsonService.tson2xml($scope.tson)
+			.success(function(data) {
 				$scope.result = data;
 			})
 			.error(function(data) {
@@ -12,7 +12,7 @@ app.controller('json2TsonController', function($scope, $location, $analytics, ts
 			});
 		};
 
-	$scope.jsonChanged = function() {
+	$scope.tsonChanged = function() {
 		$scope.result = null;
 	};
 });

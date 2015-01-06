@@ -1,4 +1,4 @@
-app.controller('formatController', function($scope, $location, $analytics, tsonService) {
+angular.module('tsonApp').controller('FormatController', function($scope, $location, $analytics, tsonService) {
 	$analytics.pageTrack($location.path());
 	$scope.result = null;
 

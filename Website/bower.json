@@ -9,8 +9,38 @@
     "angulartics": "~0.15.18"
   },
   "overrides": {
+    "angular": {
+      "main": {
+        "normal": [ "angular.js" ],
+        "minified": null
+      }
+    },
+    "angular-route": {
+      "main": {
+        "normal": [ "angular-route.js" ],
+        "minified": null
+      }
+    },
     "angulartics": {
-      "main": ["src/angulartics.js", "src/angulartics-ga.js"]
+      "main": { 
+        "normal": [
+          "src/angulartics.js",
+          "src/angulartics-ga.js"
+        ],
+        "minified": [
+          "dist/angulartics.min.js",
+          "dist/angulartics-ga.min.js"
+        ]
+      }
+    },
+    "bootstrap": {
+      "ignore": true
+    },
+    "jquery": {
+      "ignore": true
+    },
+    "jquery-waypoints": {
+      "ignore": true
     }
   }
 }
