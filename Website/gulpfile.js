@@ -1,4 +1,6 @@
-// NOTE: Use --production for a production build
+// Options:
+// --minify to Uglify/Minify
+// --config=CONFIG where CONFIG is 'release' or 'dedug'
 
 var gulp = require('gulp'),
   argv = require('yargs').argv,

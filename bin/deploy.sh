@@ -30,6 +30,7 @@ if [[ -z "$SVCNAME" || -z "$SSHCONFIG" || -z "$APPCONFIG" ]]; then
     else
         echo "APPCONFIG's be discovered by giving SVCNAME"
     fi
+    echo "BUILDCONFIG is Debug or Release (the default)"
     exit 1
 fi
 
@@ -51,6 +52,10 @@ rm -rf $SLNDIR/${APPNAME}Service/bin/${BUILDCONFIG}
 
 # Do a release build, and stop if it fails
 bash -c "cd $SLNDIR; xbuild /property:Configuration=${BUILDCONFIG} ${APPNAME}.sln"
+if [[ $? -ne 0 ]]; then exit 1; fi
+
+# Do a release build of the web site
+bash -c "cd $SLNDIR/Website; gulp clean; gulp --minify --config=release"
 if [[ $? -ne 0 ]]; then exit 1; fi
 
 # TODO: Enable when/if there are unit tests
@@ -80,4 +85,9 @@ ssh $SSHCONFIG "find ~/${SVCLIBDIR}/Scripts -name \*.sh | while read -r FILENAME
 
 # Start the service
 ssh $SSHCONFIG "sudo service ${LAPPNAME}-${LSVCNAME}-${SVCVERSION} start"
+
+# Update S3 website
+aws s3 rm s3://tsonspec.org/ --recursive --region us-east-1 --profile jamoki
+aws s3 cp $SLNDIR/Website/build/ s3://tsonspec.org/ --region us-east-1 --profile jamoki --recursive --acl public-read
+
 
